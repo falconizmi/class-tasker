@@ -1,5 +1,5 @@
 import React from "react"
 
-export const Card = () => {
-    return <div>Hello dude</div>
+export const Card = (props) => {
+    return <div>Task: {props.task}</div>
 }
