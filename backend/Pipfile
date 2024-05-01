@@ -1,0 +1,20 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+flask = "*"
+flask-cors = "*"
+flask-sqlalchemy = "*"
+sqlalchemy = "*"
+
+[dev-packages]
+mypy = "*"
+black = "*"
+flake8 = "*"
+isort = "*"
+sqlalchemy-stubs = "*"
+
+[requires]
+python_version = "3.12"
