@@ -6,11 +6,11 @@ from models import Activity, Class
 import utils
 
 
-@app.route("/home", methods=["GET"])
+@app.route("/get_activities", methods=["GET"])
 def get_activities():
     activities = Activity.query.all()
-    json_activities = list(map(lambda x: x.to_json(), activities))
-    return jsonify({"activities": json_activities})
+    json_activities = [activity.to_json() for activity in activities]
+    return json_activities
 
 
 @app.route("/create_activity", methods=["POST"])
