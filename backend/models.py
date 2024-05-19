@@ -94,11 +94,13 @@ class Activity(Model):
     date = Column(DateTime, unique=False, nullable=True)
     activity_type = Column(Enum(ActivityType), unique=False, nullable=False)
 
+    date_format = "%Y-%m-%dT%H:%M"
+
     def to_json(self) -> ActivityConfig:
         return {
             "id": self.id,
             "name": self.name,
             "decription": self.description,
-            "date": self.date,
+            "date": datetime.strptime(self.date, self.date_format),
             "activityType": self.activity_type,
         }
