@@ -1,8 +1,21 @@
-import React, { useState } from "react";
+import React from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+import { Controller, useForm } from "react-hook-form";
+
 import styles from "../styles/modules/modal.module.css";
 import { MdOutlineClose } from "react-icons/md";
-import Button from "./Buttons/Button";
-import { v4 as uuid } from "uuid";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { postTask } from "../api/taskApi";
+import { z } from "zod";
+
+export const ActivitySchema = z.object({
+  name: z.string(),
+  description: z.string().optional(),
+  date: z.coerce.date(),
+});
+
+export type Activity = z.infer<typeof ActivitySchema>;
 
 function TodoModal({
   modalOpen,
@@ -11,39 +24,25 @@ function TodoModal({
   modalOpen: boolean;
   setModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
-  const [name, setName] = useState("");
-  const [description, setDescripton] = useState("");
-  const [date, setDate] = useState("2024-05-19T12:30");
+  const queryClient = useQueryClient();
 
-  const hangleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    console.log({ name, description, date });
+  const form = useForm<Activity>({
+    resolver: zodResolver(ActivitySchema),
+  });
 
-    const activityType = "task"
-    const data = {
-      name,
-      description,
-      date,
-      activityType,
-    };
-    const url = "http://127.0.0.1:5000/create_activity"
-    const options = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(data)
-    }
-    const response = await fetch(url, options);
-    if (response.status !== 201 && response.status !== 200){
-      const message = await response.json()
-      alert(message.message)
-    } else {
-      //sucess
-    }
+  const mutation = useMutation({
+    mutationFn: async (activity: Activity) => {
+      return await postTask({ ...activity, id: "1", activityType: "task" });
+    },
+  });
 
+  const onSubmit = async (activity: Activity) => {
+    console.log("SUBMITTED");
+    mutation.mutate(activity);
     setModalOpen(false);
+    queryClient.invalidateQueries({ queryKey: ["activities"] });
   };
+
   return (
     modalOpen && (
       <div className={styles.wrapper}>
@@ -57,46 +56,51 @@ function TodoModal({
           >
             <MdOutlineClose />
           </div>
-          <form className={styles.form} onSubmit={(e) => hangleSubmit(e)}>
+          <form className={styles.form} onSubmit={form.handleSubmit(onSubmit)}>
             <h1 className={styles.formTitle}>Add task</h1>
             <label htmlFor="name">
               Name
               <input
-                type="text"
                 id="name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
+                type="text"
+                {...form.register("name", { required: "Fill out name" })}
               />
+              {form.formState.errors.name && <span>This is required</span>}
             </label>
             <label htmlFor="description">
               Description
               <input
                 type="text"
                 id="description"
-                value={description}
-                onChange={(e) => setDescripton(e.target.value)}
+                {...form.register("description", {
+                  required: "Fill out description",
+                })}
               />
+              {form.formState.errors.description && (
+                <span>This is required</span>
+              )}
             </label>
             <label htmlFor="date">
               date
               <input
                 type="datetime-local"
                 id="date"
-                value={date}
-                onChange={(e) => setDate(e.target.value)}
+                {...form.register("date", { required: "Fill out date" })}
               />
+              {form.formState.errors.date && <span>This is required</span>}
             </label>
             <div className={styles.buttonContainer}>
-              <Button type="submit" onClick={() => ""}>
-                Add task
-              </Button>
-              <Button
+              <button>
+                <input type="submit" />
+                Save
+              </button>
+              <button
                 type="button"
-                variant="secondary"
+                className="secondary-button"
                 onClick={() => setModalOpen(false)}
               >
                 Cancel
-              </Button>
+              </button>
             </div>
           </form>
         </div>

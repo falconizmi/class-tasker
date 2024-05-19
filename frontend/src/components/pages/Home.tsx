@@ -14,6 +14,7 @@ const Home = () => {
     setActivities(data.activities);
     console.log(data.activities);
   };
+
   return <ActivityList activities={activities}/>;
 };
 

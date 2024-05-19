@@ -1,16 +1,10 @@
 import { z } from "zod";
 import { baseApi } from ".";
-import { ActivitySchema } from "../models/activity";
+import { Activity, ActivitySchema } from "../models/activity";
 
-export const postTask = async () => {
-  const request = {
-    name: "test",
-    decription: "test",
-    date: new Date(),
-    activityType: "task",
-  };
-
-  const data = await baseApi.post("/create_activity", request);
+export const postTask = async (activity: Activity) => {
+  const data = await baseApi.post("/create_activity", activity);
+  console.log(data);
 };
 
 const getTaskResponse = z.object({

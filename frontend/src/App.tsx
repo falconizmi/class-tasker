@@ -8,6 +8,7 @@ import { getTasks } from "./api/taskApi";
 function App() {
   const activities = useQuery({ queryKey: ["activities"], queryFn: getTasks });
 
+
   if (activities.isLoading || !activities.data) {
     return <div></div>;
   }
@@ -30,7 +31,6 @@ function App() {
       {activities.data.map((activity) => (
         <div key={activity.id}>{activity.name}</div>
       ))}
-      <button>CLick ME</button>
     </>
   );
 }
