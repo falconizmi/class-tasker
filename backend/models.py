@@ -1,5 +1,4 @@
 import enum
-import json
 import uuid
 from datetime import datetime
 from typing import TYPE_CHECKING, TypedDict
@@ -30,7 +29,7 @@ class UserConfig(TypedDict):
 
 
 class User(Model):
-    __tablename__ = "user"
+    __tablename__ = "User"
 
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     first_name = Column(String(80), unique=False, nullable=False)
@@ -59,6 +58,8 @@ class ClassConfig(TypedDict):
 
 
 class Class(Model):
+    __tablename__ = "Class"
+
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     name = Column(String(80), unique=False, nullable=False)
     code = Column(String(80), unique=False, nullable=False)
@@ -85,6 +86,8 @@ class ActivityConfig(TypedDict):
 
 
 class Activity(Model):
+    __tablename__ = "Activity"
+
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     name = Column(String(80), unique=False, nullable=False)
     description = Column(String(200), unique=False, nullable=True)
