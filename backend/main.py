@@ -3,6 +3,8 @@ from flask import jsonify, request
 from config import app, db
 from models import Activity, Class
 
+import utils
+
 
 @app.route("/home", methods=["GET"])
 def get_activities():
@@ -25,7 +27,7 @@ def create_activity():
         )
 
     new_activity = Activity(
-        name=name, description=description, date=date, activity_type=activity_type
+        name=name, description=description, date=utils.get_datetime_from_string(date), activity_type=activity_type
     )
     try:
         db.session.add(new_activity)
@@ -45,7 +47,7 @@ def update_activity(activity_id):
     data = request.json
     activity.name = data.get("name", activity.name)
     activity.description = data.get("description", activity.description)
-    activity.date = data.get("date", activity.date)
+    activity.date = utils.get_datetime_from_string(data.get("date", activity.date))
     activity.activity_type = data.get("activityType", activity.activity_type)
 
     db.session.commit()
