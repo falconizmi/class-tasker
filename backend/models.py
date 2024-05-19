@@ -101,6 +101,6 @@ class Activity(Model):
             "id": self.id,
             "name": self.name,
             "decription": self.description,
-            "date": datetime.strptime(self.date, self.date_format),
-            "activityType": self.activity_type,
+            "date": self.date,
+            "activityType": str(self.activity_type),
         }

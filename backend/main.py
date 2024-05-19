@@ -1,4 +1,5 @@
 from flask import jsonify, request
+from datetime import datetime
 
 from config import app, db
 from models import Activity, Class
@@ -17,7 +18,7 @@ def get_activities():
 def create_activity():
     name = request.json.get("name")
     description = request.json.get("decription")
-    date = request.json.get("date")
+    date = datetime.fromisoformat(request.json.get("date"))
     activity_type = request.json.get("activityType")
 
     if not name or not activity_type:
@@ -27,7 +28,7 @@ def create_activity():
         )
 
     new_activity = Activity(
-        name=name, description=description, date=utils.get_datetime_from_string(date), activity_type=activity_type
+        name=name, description=description, date=date, activity_type=activity_type
     )
     try:
         db.session.add(new_activity)
