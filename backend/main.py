@@ -1,12 +1,15 @@
-from flask import request, jsonify
+from flask import jsonify, request
+
 from config import app, db
-from models import Activity
+from models import Activity, Class
+
 
 @app.route("/home", methods=["GET"])
 def get_activities():
     activities = Activity.query.all()
     json_activities = list(map(lambda x: x.to_json(), activities))
     return jsonify({"activities": json_activities})
+
 
 @app.route("/create_activity", methods=["POST"])
 def create_activity():
@@ -21,15 +24,17 @@ def create_activity():
             400,
         )
 
-    new_activity = Activity(name=name, description=description,
-                             date=date, activity_type=activity_type)
+    new_activity = Activity(
+        name=name, description=description, date=date, activity_type=activity_type
+    )
     try:
         db.session.add(new_activity)
         db.session.commit()
     except Exception as e:
         return jsonify({"message": str(e)}), 400
-    
+
     return jsonify({"message": "User created new activity"}), 201
+
 
 @app.route("/update_activity/<int:activity_id>", methods=["PATCH"])
 def update_activity(activity_id):
@@ -47,6 +52,7 @@ def update_activity(activity_id):
 
     return jsonify({"message": "Activity updated"}), 200
 
+
 @app.route("/delete_activity/<int:activity_id>", methods=["DELETE"])
 def delete_activity(activity_id):
     activity: Activity = Activity.query.get(activity_id)
@@ -58,6 +64,35 @@ def delete_activity(activity_id):
     db.session.commit()
 
     return jsonify({"message": "user deleted!"}), 200
+
+
+@app.route("/class", methods=["GET"])
+def get_classes():
+    classes = Class.query.all()
+    json_classes = list(map(lambda x: x.to_json(), classes))
+    return jsonify({"classes": json_classes})
+
+
+@app.route("/create_class", methods=["POST"])
+def create_class():
+    name = request.json.get("name")
+    code = request.json.get("code")
+
+    if not name or not code:
+        return (
+            jsonify({"message": "You must include a name and code"}),
+            400,
+        )
+
+    new_class = Class(name=name, code=code)
+    try:
+        db.session.add(new_class)
+        db.session.commit()
+    except Exception as e:
+        return jsonify({"message": str(e)}), 400
+
+    return jsonify({"message": "User created new class"}), 201
+
 
 if __name__ == "__main__":
     with app.app_context():
