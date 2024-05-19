@@ -8,7 +8,6 @@ function AppHeader() {
   const [modalOpen, setModalOpen] = useState(false)
   return (
     <div className={styles.appHeader}>
-      <h1>hello from header</h1>
       <Button variant='primary' onClick={() => setModalOpen(true)}>Add task</Button>
       <Button variant='primary' onClick={() => setModalOpen(true)}>Add class</Button>
       <SelectButton id='status'>
