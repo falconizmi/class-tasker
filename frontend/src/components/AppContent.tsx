@@ -1,9 +1,10 @@
 import React from 'react'
+import ActivityPage from './pages/ActivityPage'
 
 function AppContent() {
   return (
     <div>
-      this is app content
+      <ActivityPage/>
     </div>
   )
 }
