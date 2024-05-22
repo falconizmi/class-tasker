@@ -9,7 +9,8 @@ from models import Activity, Class
 def get_activities():
     activities = Activity.query.all()
     json_activities = list(map(lambda x: x.to_json(), activities))
-    return jsonify({"activities": json_activities})
+    # return jsonify({"activities": json_activities})
+    return json_activities
 
 
 @app.route("/create_activity", methods=["POST"])
