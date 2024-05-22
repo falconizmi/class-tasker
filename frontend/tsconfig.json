@@ -8,7 +8,7 @@
 
     /* shadcn */
     "paths": {
-      "@/*": ["./src/*"],
+      "@/*": ["./src/*"]
     },
 
     /* Bundler mode */
@@ -38,6 +38,6 @@
     "noUncheckedIndexedAccess": true                 /* Add 'undefined' to a type when accessed using an index. */
   },
   "include": ["src"],
-  "exclude": ["node_modules"],
+  "exclude": ["node_modules"]
   // "references": [{ "path": "./tsconfig.node.json" }]
 }
