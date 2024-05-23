@@ -15,7 +15,8 @@ function AppHeader() {
         <option value="incomplete">Incomplete</option>
         <option value="complete">Incomplete</option>
       </SelectButton>
-      <ActivityModal modalOpen={modalOpen} setModalOpen={setModalOpen}/>
+      {/* <ActivityModal modalOpen={modalOpen} setModalOpen={setModalOpen}/> */}
+      <ActivityModal/>
     </div>
   )
 }
