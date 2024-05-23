@@ -10,7 +10,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { postActivities } from "../../api/activityApi";
 import { Activity, ActivitySchema } from "../../models/activity";
 
-import { Button } from "../shadcn/button"
+import { Button } from "@/components/shadcn/button"
 import {
   Dialog,
   DialogContent,
@@ -19,9 +19,9 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "../shadcn/dialog"
-import { Input } from "../shadcn/input"
-import { Label } from "../shadcn/label"
+} from "@/components/shadcn/dialog"
+import { Input } from "@/components/shadcn/input"
+import { Label } from "@/components/shadcn/label"
 
 
 function ActivityModal({
