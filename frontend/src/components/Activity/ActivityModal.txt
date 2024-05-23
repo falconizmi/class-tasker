@@ -24,7 +24,13 @@ import { Input } from "@/components/shadcn/input"
 import { Label } from "@/components/shadcn/label"
 
 
-function ActivityModal() {
+function ActivityModal({
+  modalOpen,
+  setModalOpen,
+}: {
+  modalOpen: boolean;
+  setModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}) {
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: async (activity: Activity) => {
@@ -39,6 +45,7 @@ function ActivityModal() {
     console.log("SUBMITTED");
     mutation.mutate(activity);
     queryClient.invalidateQueries({ queryKey: ["activities"] });
+    setModalOpen(false);
   };
 
   const form = useForm<Activity>({
@@ -51,7 +58,7 @@ function ActivityModal() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="default">Edit Profile</Button>
+        <Button variant="outline">Edit Profile</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
