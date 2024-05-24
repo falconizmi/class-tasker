@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import {Button} from './shadcn/button'
-import SelectButton from './Buttons/SelectButton'
 import styles from "../styles/modules/app.module.css"
 import ActivityModal from "./Activity/ActivityModal"
 
@@ -10,11 +9,6 @@ function AppHeader() {
     <div className={styles.appHeader}>
       <ActivityModal/>
       <Button onClick={() => setModalOpen(true)}>Add class</Button>
-      <SelectButton id='status'>
-        <option value="all">All</option>
-        <option value="incomplete">Incomplete</option>
-        <option value="complete">Incomplete</option>
-      </SelectButton>
       {/* <ActivityModal modalOpen={modalOpen} setModalOpen={setModalOpen}/> */}
     </div>
   )
