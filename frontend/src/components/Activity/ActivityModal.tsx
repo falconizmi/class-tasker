@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { useForm } from "react-hook-form";
@@ -51,10 +51,15 @@ function ActivityModal() {
 
     setOpen(false);
   };
-
   const form = useForm<Activity>({
     resolver: zodResolver(ActivitySchema),
   });
+
+  useEffect(() => {
+    if (form.formState.isSubmitted && !form.formState.isValid) {
+      console.log(form.formState.errors);
+    }
+  }, [form.formState.submitCount]);
 
   const [open, setOpen] = useState(false);
   return (
@@ -63,7 +68,7 @@ function ActivityModal() {
         <Button variant="default">Add task</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
-      <form onSubmit={form.handleSubmit(onSubmit)}>
+        <form onSubmit={form.handleSubmit(onSubmit)}>
           <DialogHeader>
             <DialogTitle>Add task</DialogTitle>
             <DialogDescription>
