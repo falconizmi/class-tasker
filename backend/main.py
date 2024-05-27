@@ -4,6 +4,8 @@ from flask import jsonify, request
 from config import app, db
 from models import Activity, Class
 
+import utils
+
 
 @app.route("/get_activities", methods=["GET"])
 def get_activities():
@@ -17,7 +19,7 @@ def get_activities():
 def create_activity():
     name = request.json.get("name")
     description = request.json.get("decription")
-    date = datetime.fromisoformat(request.json.get("date"))
+    date = utils.from_js_isoformat(request.json.get("date"))
     activity_type = request.json.get("activityType")
 
     if not name or not activity_type:

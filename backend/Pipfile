@@ -9,6 +9,7 @@ flask-cors = "*"
 flask-sqlalchemy = "*"
 sqlalchemy = "*"
 bcrypt = "*"
+python-dateutil = "*"
 
 [dev-packages]
 mypy = "*"
