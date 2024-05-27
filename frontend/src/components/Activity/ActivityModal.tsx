@@ -8,7 +8,11 @@ import { useForm } from "react-hook-form";
 // import { MdOutlineClose } from "react-icons/md";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { postActivities } from "../../api/activityApi";
-import { Activity, ActivitySchema } from "../../models/activity";
+import {
+  ActivityEnum,
+  ActivityWithId,
+  ActivityWithIdSchema,
+} from "../../models/activity";
 
 import { Button } from "@/components/shadcn/button";
 import {
@@ -32,32 +36,65 @@ import {
   SelectValue,
 } from "@/components/shadcn/select";
 import { DateTimePicker } from "../DatePicker/date-time-picker";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/shadcn/form";
+
+import { format } from "date-fns";
+import { Calendar as CalendarIcon, Key } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { Calendar } from "@/components/shadcn/calendar";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/shadcn/popover";
+import { TimePickerDemo } from "@/components/shadcn/time-picker-demo";
+
+import { z } from "zod";
+
+import { toast } from "@/components/shadcn/use-toast";
+
+import { v4 as uuid } from "uuid";
 
 function ActivityModal() {
   const queryClient = useQueryClient();
   const mutation = useMutation({
-    mutationFn: async (activity: Activity) => {
+    mutationFn: async (activity: ActivityWithId) => {
       return await postActivities({
+        id: uuid(),
         ...activity,
-        id: "1",
       });
     },
   });
 
-  const onSubmit = async (activity: Activity) => {
+  const onSubmit = async (activity: ActivityWithId) => {
     console.log("SUBMITTED");
     mutation.mutate(activity);
     queryClient.invalidateQueries({ queryKey: ["activities"] });
-
+    console.log(activity.date)
     setOpen(false);
+
+    form.resetField("name"); // TODO udelat pro ostatni a pridat do funkce
+    form.resetField("description")
+    form.resetField("date")
+    form.resetField("activityType")
+
   };
-  const form = useForm<Activity>({
-    resolver: zodResolver(ActivitySchema),
+  const form = useForm<ActivityWithId>({
+    resolver: zodResolver(ActivityWithIdSchema),
   });
 
   useEffect(() => {
     if (form.formState.isSubmitted && !form.formState.isValid) {
       console.log(form.formState.errors);
+      console.log(form.formState.dirtyFields);
     }
   }, [form.formState.submitCount]);
 
@@ -68,137 +105,121 @@ function ActivityModal() {
         <Button variant="default">Add task</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
-        <form onSubmit={form.handleSubmit(onSubmit)}>
-          <DialogHeader>
-            <DialogTitle>Add task</DialogTitle>
-            <DialogDescription>
-              Fill out the fields to add task.
-            </DialogDescription>
-          </DialogHeader>
-          <div className="grid gap-4 py-4">
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="name" className="text-right">
-                Name
-              </Label>
-              <Input id="name" defaultValue="" className="col-span-3" />
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)}>
+            <DialogHeader>
+              <DialogTitle>Add task</DialogTitle>
+              <DialogDescription>
+                Fill out the fields to add task.
+              </DialogDescription>
+            </DialogHeader>
+            <div className="grid gap-4 py-4">
+              <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Name</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Name" value={field.value || ""} onChange={field.onChange} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="description"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Description</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Description" value={field.value || ""} onChange={field.onChange} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="date"
+                render={({ field }) => (
+                  <FormItem className="flex flex-col">
+                    <FormLabel className="text-left">DateTime</FormLabel>
+                    <Popover>
+                      <FormControl>
+                        <PopoverTrigger asChild>
+                          <Button
+                            variant="outline"
+                            className={cn(
+                              "w-[280px] justify-start text-left font-normal",
+                              !field.value && "text-muted-foreground"
+                            )}
+                          >
+                            <CalendarIcon className="mr-2 h-4 w-4" />
+                            {field.value ? (
+                              format(field.value, "PPP HH:mm:ss")
+                            ) : (
+                              <span>Pick a date</span>
+                            )}
+                          </Button>
+                        </PopoverTrigger>
+                      </FormControl>
+                      <PopoverContent className="w-auto p-0">
+                        <Calendar
+                          mode="single"
+                          selected={field.value}
+                          onSelect={field.onChange}
+                          initialFocus
+                        />
+                        <div className="p-3 border-t border-border">
+                          <TimePickerDemo
+                            setDate={field.onChange}
+                            date={field.value}
+                          />
+                        </div>
+                      </PopoverContent>
+                    </Popover>
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="activityType"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Activity type</FormLabel>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select activity type" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectItem value={ActivityEnum.Values.task}>
+                          task
+                        </SelectItem>
+                        <SelectItem value={ActivityEnum.Values.event}>
+                          event
+                        </SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
             </div>
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="description" className="text-right">
-                Description
-              </Label>
-              <Input id="description" defaultValue="" className="col-span-3" />
-            </div>
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="date" className="text-right">
-                Date
-              </Label>
-              <DateTimePicker />
-            </div>
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="activityType" className="text-right">
-                ActivityType
-              </Label>
-              <Select>
-                <SelectTrigger className="w-[180px]">
-                  <SelectValue placeholder="Select activity type" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectGroup>
-                    <SelectLabel>ActivityType</SelectLabel>
-                    <SelectItem value="task">task</SelectItem>
-                    <SelectItem value="event">event</SelectItem>
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
-          <DialogFooter>
-            <Button type="submit">Add</Button>
-          </DialogFooter>
-        </form>
+            <DialogFooter>
+              <Button type="submit">Add</Button>
+            </DialogFooter>
+          </form>
+        </Form>
       </DialogContent>
     </Dialog>
   );
-
-  // return (
-  //   modalOpen && (
-  //     <div className={styles.wrapper}>
-  //       <div className={styles.container}>
-  //         <div
-  //           className={styles.closeButton}
-  //           onClick={() => setModalOpen(false)}
-  //           onKeyDown={() => setModalOpen(false)}
-  //           tabIndex={0}
-  //           role="button"
-  //         >
-  //           <MdOutlineClose />
-  //         </div>
-  //         <form className={styles.form} onSubmit={form.handleSubmit(onSubmit)}>
-  //           <h1 className={styles.formTitle}>Add task</h1>
-  //           {/* name */}
-  //           <label htmlFor="name">
-  //             Name
-  //             <input
-  //               id="name"
-  //               type="text"
-  //               {...form.register("name", { required: "Fill out name" })}
-  //             />
-  //             {form.formState.errors.name && <span>This is required</span>}
-  //           </label>
-  //           {/* description */}
-  //           <label htmlFor="description">
-  //             Description
-  //             <input
-  //               type="text"
-  //               id="description"
-  //               {...form.register("description", {
-  //                 required: "Fill out description",
-  //               })}
-  //             />
-  //             {form.formState.errors.description && (
-  //               <span>This is required</span>
-  //             )}
-  //           </label>
-  //           {/* date */}
-  //           <label htmlFor="date">
-  //             date
-  //             <input
-  //               type="datetime-local"
-  //               id="date"
-  //               {...form.register("date", { required: "Fill out date" })}
-  //             />
-  //             {form.formState.errors.date && <span>This is required</span>}
-  //           </label>
-  //           {/* activityType */}
-  //           <label htmlFor="activityType">
-  //             Activity type
-  //             <select {...form.register("activityType", { required: "Fill out activity type" })}>
-  //               <option value="task">task</option>
-  //               <option value="event">event</option>
-  //             </select>
-  //             {form.formState.errors.activityType && (
-  //               <span>This is required</span>
-  //             )}
-  //           </label>
-
-  //           {/* submit */}
-  //           <div className={styles.buttonContainer}>
-  //             <button className={stylesButton.button}>
-  //               <input type="submit" value={submitValue} onChange={e => setSubmitValue(e.target.value)}/>
-  //             </button>
-  //             <button
-  //               type="button"
-  //               className="secondary-button"
-  //               onClick={() => setModalOpen(false)}
-  //             >
-  //               Cancel
-  //             </button>
-  //           </div>
-  //         </form>
-  //       </div>
-  //     </div>
-  //   )
-  // );
 }
 
 export default ActivityModal;
