@@ -1,8 +1,11 @@
 import { z } from "zod";
 import { baseApi } from ".";
-import { Activity, ActivityFetchSchema, ActivitySchema } from "../models/activity";
+import {
+  Activity,
+  ActivityFetchSchema,
+  ActivitySchema,
+} from "../models/activity";
 import { Result } from "@badrap/result";
-
 
 // const getTaskResponse = z.object({
 //   data: z.array(ActivityFetchSchema),
@@ -10,7 +13,7 @@ import { Result } from "@badrap/result";
 
 export const fetchActivities = async (): Promise<Result<Activity[]>> => {
   const data = await baseApi.get("/get_activities");
-  const request = ActivityFetchSchema.safeParse(data);
+  const request = ActivityFetchSchema.safeParse(data.data);
   // const requestToPrint = ActivityFetchSchema.parse(data);
 
   if (!request.success) {
@@ -18,12 +21,7 @@ export const fetchActivities = async (): Promise<Result<Activity[]>> => {
     return Result.err(new Error("Response is of unexpected structure!"));
   }
 
-  const requestBody = await ActivityFetchSchema.safeParseAsync(request.data["activities"]);
-  if (!requestBody.success) {
-    return Result.err(new Error("Parsing data failed!\n" + requestBody.error.message));
-  }
-
-  return Result.ok(request.data["activities"]);
+  return Result.ok(request.data.activities);
 };
 
 export const postActivities = async (activity: Activity): Promise<void> => {
