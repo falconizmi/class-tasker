@@ -7,6 +7,7 @@ from sqlalchemy import Column, DateTime, Enum, String
 from sqlalchemy.dialects.postgresql import UUID
 
 from config import db
+from utils import to_js_isoformat
 
 if TYPE_CHECKING:
     from flask_sqlalchemy.model import Model
@@ -77,7 +78,7 @@ class ActivityType(enum.Enum):
     event = 2
 
     def __str__(self):
-        return str(self.name.upper())
+        return str(self.name.lower())
 
 
 class ActivityConfig(TypedDict):
@@ -102,6 +103,6 @@ class Activity(Model):
             "id": self.id,
             "name": self.name,
             "decription": self.description,
-            "date": self.date,
+            "date": to_js_isoformat(self.date),
             "activityType": str(self.activity_type),
         }
