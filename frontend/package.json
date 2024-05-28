@@ -12,6 +12,7 @@
         "typecheck:watch": "tsc -w"
     },
     "dependencies": {
+        "@badrap/result": "^0.2.13",
         "@fontsource/poppins": "^5.0.14",
         "@hookform/resolvers": "^3.4.2",
         "@radix-ui/react-dialog": "^1.0.5",
