@@ -4,6 +4,8 @@ import ActivityItem from '../Activity/ActivityItem';
 import { Activity } from '../../models/activity';
 import { fetchActivities } from '../../api/activityApi';
 import { Result } from '@badrap/result';
+import { DataTable } from '../Activity/data-table';
+import { columns } from '../Activity/columns';
 
 function ActivityPage() {
     const activities = useQuery<Result<Activity[]>>({
@@ -26,13 +28,16 @@ function ActivityPage() {
     }
 
   return (
-    <div>
-      {activities.data.value?.map((activityItem) => (
-            <ActivityItem key={activityItem.id} {...activityItem} />
-          ))}
-          <p>WHERE CONTENT?</p>
-          {/* <p>{dataA}</p> */}
+    <div className="container mx-auto py-10">
+      <DataTable columns={columns} data={activities.data.value} />
     </div>
+    // <div>
+    //   {activities.data.value?.map((activityItem) => (
+    //         <ActivityItem key={activityItem.id} {...activityItem} />
+    //       ))}
+    //       <p>WHERE CONTENT?</p>
+    //       {/* <p>{dataA}</p> */}
+    // </div>
   )
 }
 
