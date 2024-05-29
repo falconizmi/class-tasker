@@ -9,7 +9,7 @@ function ActivityItem({
 }: Activity): React.JSX.Element  {
   return (
     <div>
-      <p>{name}{description}{date.getDate()}{activityType}</p>
+      <p>name:{name} desc:{description} date:{date.getDay()}.{date.getMonth()}.{date.getFullYear()} type:  {activityType}</p>
     </div>
   )
 }
