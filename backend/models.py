@@ -84,7 +84,7 @@ class ActivityType(enum.Enum):
 class ActivityConfig(TypedDict):
     id: str
     name: str
-    decription: str | None
+    description: str | None
     date: datetime | None
     activityType: str
 
@@ -102,7 +102,7 @@ class Activity(Model):
         return {
             "id": self.id,
             "name": self.name,
-            "decription": self.description,
+            "description": self.description,
             "date": to_js_isoformat(self.date),
             "activityType": str(self.activity_type),
         }
