@@ -1,11 +1,11 @@
-from datetime import datetime, timezone
+from datetime import datetime
 from dateutil import parser
 
 def to_js_isoformat(dt: datetime) -> str:
     return (
-        dt.astimezone(timezone.utc)
+        dt
         .isoformat(timespec="milliseconds")
-        .replace("+00:00", "Z")
+        + "Z"
     )
 
 def from_js_isoformat(datestring: str) -> datetime:
