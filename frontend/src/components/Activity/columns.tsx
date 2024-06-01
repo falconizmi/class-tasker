@@ -13,6 +13,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/shadcn/dropdown-menu"
+import { Badge } from "../shadcn/badge";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -28,25 +29,21 @@ export const columns: ColumnDef<Activity>[] = [
   },
   {
     accessorKey: "date",
-    header: "Date"
-    // header: () => <div className="text-right">Date</div>,
-    // cell: ({ row }) => {
-    //   const date: Date = row.getValue("date");
+    header: () => <div className="text-right">Date</div>,
+    cell: ({ row }) => {
+      const date: Date = row.getValue("date");
 
-    //   return (
-    //     <div>
-    //       {String(date.getDay()).padStart(2, "0")}.
-    //       {String(date.getMonth()).padStart(2, "0")}.{date.getFullYear()}{" "}
-    //       {String(date.getHours()).padStart(2, "0")}:
-    //       {String(date.getMinutes()).padStart(2, "0")}:
-    //       {String(date.getSeconds()).padStart(2, "0")}
-    //     </div>
-    //   );
-    // },
+      return (
+        <div>{date.toLocaleString()}</div>
+      );
+    },
   },
   {
     accessorKey: "activityType",
     header: "Activity type",
+    cell: ({row}) => {
+      return (<Badge>{row.getValue("activityType")}</Badge>)
+    },
   },
   {
     id: "actions",
