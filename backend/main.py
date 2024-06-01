@@ -18,7 +18,7 @@ def get_activities():
 @app.route("/create_activity", methods=["POST"])
 def create_activity():
     name = request.json.get("name")
-    description = request.json.get("decription")
+    description = request.json.get("description")
     date = utils.from_js_isoformat(request.json.get("date"))
     activity_type = request.json.get("activityType")
 
