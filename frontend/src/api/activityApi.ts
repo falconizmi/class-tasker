@@ -12,7 +12,7 @@ import { Result } from "@badrap/result";
 // });
 
 export const fetchActivities = async (): Promise<Result<Activity[]>> => {
-  const data = await baseApi.get("/get_activities");
+  const data = await baseApi.get("/activities");
   const request = ActivityFetchSchema.safeParse(data.data);
   // const requestToPrint = ActivityFetchSchema.parse(data);
 
@@ -25,7 +25,7 @@ export const fetchActivities = async (): Promise<Result<Activity[]>> => {
 };
 
 export const postActivities = async (activity: Activity): Promise<void> => {
-  const data = await baseApi.post("/create_activity", activity, {
+  const data = await baseApi.post("/activities", activity, {
     headers: { "Content-Type": "application/json" },
   });
   console.log(data);
