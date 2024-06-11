@@ -81,12 +81,17 @@ function ActivityModal() {
     console.log(activity.date)
     setOpen(false);
 
-    form.resetField("name"); // TODO udelat pro ostatni a pridat do funkce
+    resetFields()
+
+  };
+
+  const resetFields = async() => {
+    form.resetField("name");
     form.resetField("description")
     form.resetField("date")
     form.resetField("activityType")
+  }
 
-  };
   const form = useForm<ActivityWithId>({
     resolver: zodResolver(ActivityWithIdSchema),
   });
@@ -104,7 +109,9 @@ function ActivityModal() {
       <DialogTrigger asChild>
         <Button variant="default">Add task</Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[425px]" onInteractOutside={(e) => {
+          e.preventDefault();
+        }}>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
             <DialogHeader>
@@ -212,8 +219,9 @@ function ActivityModal() {
                 )}
               />
             </div>
-            <DialogFooter>
+            <DialogFooter className="flex !justify-between">
               <Button type="submit">Add</Button>
+              <Button onClick={() => {resetFields();setOpen(false)}}type="button">Cancel</Button>
             </DialogFooter>
           </form>
         </Form>
