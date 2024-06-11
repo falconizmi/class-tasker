@@ -63,7 +63,7 @@ import { toast } from "@/components/shadcn/use-toast";
 
 import { v4 as uuid } from "uuid";
 
-function ActivityModal() {
+function AddActivityModal() {
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: async (activity: ActivityWithId) => {
@@ -230,4 +230,4 @@ function ActivityModal() {
   );
 }
 
-export default ActivityModal;
+export default AddActivityModal;
