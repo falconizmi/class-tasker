@@ -1,10 +1,10 @@
 import styles from "../styles/modules/app.module.css"
-import ActivityModal from "./Activity/ActivityModal"
+import AddActivityModal from "./Activity/AddActivityModal"
 
 function AppHeader() {
   return (
     <div className={styles.appHeader}>
-      <ActivityModal/>
+      <AddActivityModal/>
     </div>
   )
 }
