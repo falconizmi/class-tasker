@@ -14,6 +14,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/shadcn/dropdown-menu"
 import { Badge } from "../shadcn/badge";
+import { DataTableRowActions } from "./columns-row-actions";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -46,30 +47,7 @@ export const columns: ColumnDef<Activity>[] = [
     },
   },
   {
-    id: "actions",
-    cell: ({ row }) => {
-      const activity = row.original
- 
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(activity.id)} // TODO change this to edit activity
-            >
-              Edit Activity
-            </DropdownMenuItem>
-            <DropdownMenuItem>Delete Activity</DropdownMenuItem> {/* TODO change this to delete activity */}
-            <DropdownMenuItem>Mark Activity Done</DropdownMenuItem> {/* TODO not sure about this but keep like this for now */}
-          </DropdownMenuContent>
-        </DropdownMenu>
-      )
-    },
+    id: 'actions',
+    cell: ({ row }) => <DataTableRowActions row={row} />,
   },
 ];

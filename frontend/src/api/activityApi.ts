@@ -7,17 +7,11 @@ import {
 } from "../models/activity";
 import { Result } from "@badrap/result";
 
-// const getTaskResponse = z.object({
-//   data: z.array(ActivityFetchSchema),
-// });
-
 export const fetchActivities = async (): Promise<Result<Activity[]>> => {
   const data = await baseApi.get("/activities");
   const request = ActivityFetchSchema.safeParse(data.data);
-  // const requestToPrint = ActivityFetchSchema.parse(data);
 
   if (!request.success) {
-    // console.log(requestToPrint)
     return Result.err(new Error("Response is of unexpected structure!"));
   }
 
@@ -28,5 +22,17 @@ export const postActivities = async (activity: Activity): Promise<void> => {
   const data = await baseApi.post("/activities", activity, {
     headers: { "Content-Type": "application/json" },
   });
+  console.log(data);
+};
+
+export const updateActivity = async (activity: Activity): Promise<void> => {
+  const data = await baseApi.patch(`/activities/${activity.id}`, activity, {
+    headers: { "Content-Type": "application/json" },
+  });
+  console.log(data);
+};
+
+export const deleteActivity = async (activityId: string): Promise<void> => {
+  const data = await baseApi.delete(`/activities/${activityId}`);
   console.log(data);
 };

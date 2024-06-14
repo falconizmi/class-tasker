@@ -13,14 +13,14 @@ export const ActivitySchema = z.object({
 
 export type Activity = z.infer<typeof ActivitySchema>;
 
-export const ActivityWithIdSchema = z.object({
+export const ActivityWithoutIdSchema = z.object({
   name: z.string().min(1, "Missing name"),
   description: z.string().optional(),
   date: z.coerce.date(),
   activityType: ActivityEnum,
 });
 
-export type ActivityWithId = z.infer<typeof ActivityWithIdSchema>;
+export type ActivityWithoutId = z.infer<typeof ActivityWithoutIdSchema>;
 
 export const ActivityFetchSchema = z.object({
   activities: z.object({

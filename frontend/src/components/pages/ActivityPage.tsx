@@ -11,6 +11,7 @@ function ActivityPage() {
     const activities = useQuery<Result<Activity[]>>({
         queryKey: ["activities"],
         queryFn: fetchActivities,
+        refetchOnWindowFocus: true,
       });
 
 
@@ -31,13 +32,6 @@ function ActivityPage() {
     <div className="container mx-auto py-10">
       <DataTable columns={columns} data={activities.data.value} />
     </div>
-    // <div>
-    //   {activities.data.value?.map((activityItem) => (
-    //         <ActivityItem key={activityItem.id} {...activityItem} />
-    //       ))}
-    //       <p>WHERE CONTENT?</p>
-    //       {/* <p>{dataA}</p> */}
-    // </div>
   )
 }
 

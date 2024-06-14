@@ -2,17 +2,13 @@ import React, { useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { useForm } from "react-hook-form";
-
-// import styles from "../../styles/modules/modal.module.css";
-// import stylesButton from "../../styles/modules/button.module.css";
-// import { MdOutlineClose } from "react-icons/md";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { postActivities } from "../../api/activityApi";
+import { postActivities } from "@/api/activityApi";
 import {
   ActivityEnum,
-  ActivityWithId,
-  ActivityWithIdSchema,
-} from "../../models/activity";
+  ActivityWithoutId,
+  ActivityWithoutIdSchema,
+} from "@/models/activity";
 
 import { Button } from "@/components/shadcn/button";
 import {
@@ -35,7 +31,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/shadcn/select";
-import { DateTimePicker } from "../DatePicker/date-time-picker";
+import { DateTimePicker } from "@/components/DatePicker/date-time-picker";
 import {
   Form,
   FormControl,
@@ -66,7 +62,7 @@ import { v4 as uuid } from "uuid";
 function AddActivityModal() {
   const queryClient = useQueryClient();
   const mutation = useMutation({
-    mutationFn: async (activity: ActivityWithId) => {
+    mutationFn: async (activity: ActivityWithoutId) => {
       return await postActivities({
         id: uuid(),
         ...activity,
@@ -74,7 +70,7 @@ function AddActivityModal() {
     },
   });
 
-  const onSubmit = async (activity: ActivityWithId) => {
+  const onSubmit = async (activity: ActivityWithoutId) => {
     console.log("SUBMITTED");
     mutation.mutate(activity);
     queryClient.invalidateQueries({ queryKey: ["activities"] });
@@ -92,8 +88,8 @@ function AddActivityModal() {
     form.resetField("activityType")
   }
 
-  const form = useForm<ActivityWithId>({
-    resolver: zodResolver(ActivityWithIdSchema),
+  const form = useForm<ActivityWithoutId>({
+    resolver: zodResolver(ActivityWithoutIdSchema),
   });
 
   useEffect(() => {
