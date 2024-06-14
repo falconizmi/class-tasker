@@ -1,5 +1,6 @@
 from datetime import datetime
 from flask import Blueprint, jsonify, request
+from uuid import UUID
 
 from config import db
 from models import Activity
@@ -34,8 +35,8 @@ def create_activity():
 
     return jsonify({"message": "User created new activity"}), 201
 
-@activity_bp.route("/<int:activity_id>", methods=["PATCH"])
-def update_activity(activity_id):
+@activity_bp.route("/<uuid:activity_id>", methods=["PATCH"])
+def update_activity(activity_id: UUID):
     activity = Activity.query.get(activity_id)
 
     if not activity:
@@ -43,15 +44,15 @@ def update_activity(activity_id):
     data = request.json
     activity.name = data.get("name", activity.name)
     activity.description = data.get("description", activity.description)
-    activity.date = datetime.fromisoformat(data.get("date", activity.date))
+    activity.date = utils.from_js_isoformat(data.get("date", activity.date.isoformat()))
     activity.activity_type = data.get("activityType", activity.activity_type)
 
     db.session.commit()
 
     return jsonify({"message": "Activity updated"}), 200
 
-@activity_bp.route("/<int:activity_id>", methods=["DELETE"])
-def delete_activity(activity_id):
+@activity_bp.route("/<uuid:activity_id>", methods=["DELETE"])
+def delete_activity(activity_id: UUID):
     activity = Activity.query.get(activity_id)
 
     if not activity:
