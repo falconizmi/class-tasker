@@ -1,9 +1,8 @@
 import { z } from "zod";
-import { baseApi } from ".";
+import baseApi from "./index";
 import {
   Activity,
   ActivityFetchSchema,
-  ActivitySchema,
 } from "../models/activity";
 import { Result } from "@badrap/result";
 

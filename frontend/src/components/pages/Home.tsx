@@ -4,10 +4,12 @@ import AppHeader from "../AppHeader";
 import AppContent from "../AppContent";
 import { Button } from "../shadcn/button";
 import { useNavigate } from "react-router-dom";
-import { logout } from "../../utils/auth";
+import { useAuth } from "@/context/AuthContext";
+
 
 function Home() {
   const navigate = useNavigate();
+  const { logout } = useAuth();
 
   const handleLogout = () => {
     logout();

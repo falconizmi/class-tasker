@@ -10,19 +10,27 @@ import {
 } from "@/components/shadcn/card";
 import { Input } from "@/components/shadcn/input";
 import { Label } from "@/components/shadcn/label";
-import { login } from "../../utils/auth";
+import { useAuth } from "@/context/AuthContext";
+import { Login } from "@/models/auth";
 
 export default function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
+  const { login } = useAuth();
 
-  const handleSubmit = (event: React.FormEvent) => {
+  const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    // Example static token, in real application fetch token from API
-    const token = "1234567890";
-    login(token);
-    navigate("/home");
+    const credentials: Login = { email, password };
+    const result = await login(credentials);
+    console.log("in submit login")
+    if (result.isOk) {
+      console.log("before navigation")
+      navigate("/home");
+    } else {
+      setError(result.error.message);
+    }
   };
 
   return (
