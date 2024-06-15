@@ -10,18 +10,29 @@ import {
 } from "@/components/shadcn/card";
 import { Input } from "@/components/shadcn/input";
 import { Label } from "@/components/shadcn/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/shadcn/select";
+import { useAuth } from "@/context/AuthContext";
+import { Register } from "@/models/auth";
 
 export default function RegisterForm() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [userType, setUserType] = useState<"student" | "teacher">("student");
+  const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
+  const { register } = useAuth();
 
-  const handleSubmit = (event: React.FormEvent) => {
+  const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    // Handle registration logic
-    navigate("/login");
+    const user: Register = { firstName, lastName, email, password, userType };
+    const result = await register(user);
+    if (result.isOk) {
+      navigate("/login");
+    } else {
+      setError(result.error.message);
+    }
   };
 
   return (
@@ -77,6 +88,19 @@ export default function RegisterForm() {
               required
             />
           </div>
+          <div className="grid gap-2">
+            <Label htmlFor="user-type">User Type</Label>
+            <Select value={userType} onValueChange={(value) => setUserType(value as "student" | "teacher")}>
+              <SelectTrigger id="user-type">
+                <SelectValue placeholder="Select user type" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="student">Student</SelectItem>
+                <SelectItem value="teacher">Teacher</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+          {error && <div className="text-red-500">{error}</div>}
           <Button type="submit" className="w-full">
             Create an account
           </Button>
