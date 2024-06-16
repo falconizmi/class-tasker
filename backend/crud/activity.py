@@ -1,4 +1,3 @@
-from datetime import datetime
 from flask import Blueprint, jsonify, request
 from uuid import UUID
 
@@ -22,12 +21,13 @@ def create_activity():
     description = request.json.get("description")
     date = from_js_isoformat(request.json.get("date"))
     activity_type = request.json.get("activityType")
+    class_id = request.json.get("classId")
 
-    if not name or not activity_type:
-        return jsonify({"message": "You must include a name and activity type"}), 400
+    if not name or not activity_type or not class_id:
+        return jsonify({"message": "You must include a name and activity type, and class ID"}), 400
 
     new_activity = Activity(
-        name=name, description=description, date=date, activity_type=activity_type
+        name=name, description=description, date=date, activity_type=activity_type,  class_id=class_id
     )
     try:
         db.session.add(new_activity)
@@ -49,6 +49,7 @@ def update_activity(activity_id: UUID):
     activity.description = data.get("description", activity.description)
     activity.date = from_js_isoformat(data.get("date", activity.date.isoformat()))
     activity.activity_type = data.get("activityType", activity.activity_type)
+    activity.class_id = data.get("classId", activity.class_id)
 
     db.session.commit()
 
@@ -65,4 +66,4 @@ def delete_activity(activity_id: UUID):
     db.session.delete(activity)
     db.session.commit()
 
-    return jsonify({"message": "User deleted!"}), 200
+    return jsonify({"message": "Activity deleted!"}), 200
