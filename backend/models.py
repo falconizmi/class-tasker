@@ -19,6 +19,9 @@ class UserType(enum.Enum):
     student = 1
     teacher = 2
 
+    def __str__(self):
+        return str(self.name.lower())
+
 
 class UserConfig(TypedDict):
     id: str
@@ -48,7 +51,7 @@ class User(Model):
             "lastName": self.last_name,
             "email": self.email,
             "password": self.password,
-            "userType": self.user_type,
+            "userType": str(self.user_type),
         }
 
 

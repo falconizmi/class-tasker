@@ -10,6 +10,9 @@ flask-sqlalchemy = "*"
 sqlalchemy = "*"
 bcrypt = "*"
 python-dateutil = "*"
+python-dotenv = "*"
+flask-bcrypt = "*"
+flask-session = "*"
 
 [dev-packages]
 mypy = "*"
