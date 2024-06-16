@@ -13,6 +13,7 @@ python-dateutil = "*"
 python-dotenv = "*"
 flask-bcrypt = "*"
 flask-session = "*"
+flask-migrate = "*"
 
 [dev-packages]
 mypy = "*"

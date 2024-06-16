@@ -5,6 +5,7 @@ from flask_session import Session
 from dotenv import load_dotenv
 import os
 from flask_bcrypt import Bcrypt
+from flask_migrate import Migrate
 
 app = Flask(__name__)
 CORS(app, supports_credentials=True, resources={r"/*": {"origins": "*"}})
@@ -25,4 +26,5 @@ app.config['SESSION_USE_SIGNER'] = True
 app.config['SESSION_KEY_PREFIX'] = 'session:'
 
 db = SQLAlchemy(app)
+migrate = Migrate(app, db)
 Session(app)

@@ -2,7 +2,7 @@ from flask import Blueprint, jsonify, request
 from uuid import UUID
 
 from config import db
-from models import Class
+from models import Class, User
 from utils import login_required
 
 class_bp = Blueprint('class', __name__)
@@ -60,3 +60,15 @@ def delete_class(class_id: UUID):
     db.session.commit()
 
     return jsonify({"message": "Class deleted!"}), 200
+
+
+@class_bp.route("/user/<uuid:user_id>", methods=["GET"])
+@login_required
+def get_user_classes(user_id: UUID):
+    user = User.query.get(user_id)
+
+    if not user:
+        return jsonify({"message": "User not found"}), 404
+
+    json_classes = list(map(lambda x: x.to_json(), user.classes))
+    return jsonify({"classes": json_classes})
