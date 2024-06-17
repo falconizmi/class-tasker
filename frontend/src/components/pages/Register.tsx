@@ -12,7 +12,7 @@ import { Input } from "@/components/shadcn/input";
 import { Label } from "@/components/shadcn/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/shadcn/select";
 import { useAuth } from "@/context/AuthContext";
-import { Register } from "@/models/auth";
+import { UserWithoutId } from "@/models/auth";
 
 export default function RegisterForm() {
   const [firstName, setFirstName] = useState("");
@@ -26,7 +26,7 @@ export default function RegisterForm() {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    const user: Register = { firstName, lastName, email, password, userType };
+    const user: UserWithoutId = { firstName, lastName, email, password, userType };
     const result = await register(user);
     if (result.isOk) {
       navigate("/login");

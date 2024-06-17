@@ -1,8 +1,9 @@
 import baseApi from "./index";
-import { Register, RegisterSchema, Login, LoginSchema, SessionSchema } from "../models/auth";
+import { Login, LoginSchema, SessionSchema } from "../models/auth";
+import { UserWithoutId, UserWithoutIdSchema } from "../models/user";
 import { Result } from "@badrap/result";
 
-export const registerUser = async (user: Register): Promise<Result<void>> => {
+export const registerUser = async (user: UserWithoutId): Promise<Result<void>> => {
   const response = await baseApi.post("/auth/register", user, {
     headers: { "Content-Type": "application/json" },
   });
