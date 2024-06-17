@@ -1,11 +1,12 @@
 import React, { createContext, useState, useEffect, ReactNode } from 'react';
 import { checkUserSession, loginUser, logoutUser, registerUser } from '../api/authApi';
-import { Login, Register } from '../models/auth';
+import { Login } from '../models/auth';
+import { UserWithoutId } from '../models/user';
 import { Result } from '@badrap/result';
 
 interface AuthContextProps {
   isAuthenticated: boolean;
-  register: (data: Register) => Promise<Result<void, Error>>;
+  register: (data: UserWithoutId) => Promise<Result<void, Error>>;
   login: (data: Login) => Promise<Result<void, Error>>;
   logout: () => Promise<Result<void, Error>>;
 }
@@ -26,7 +27,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     fetchSession();
   }, []);
 
-  const register = async (data: Register) => {
+  const register = async (data: UserWithoutId) => {
     const result = await registerUser(data);
     if (result.isOk) {
       setIsAuthenticated(true);
