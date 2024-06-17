@@ -35,5 +35,8 @@ yarn-error.log*
 .contentlayer
 .env
 
-# local database
+# database
+migrations
+flask_session
+instance
 *.db
