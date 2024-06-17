@@ -9,6 +9,7 @@ export const ActivitySchema = z.object({
   description: z.string().optional(),
   date: z.coerce.date(),
   activityType: ActivityEnum,
+  classId: z.string().uuid(),
 });
 
 export type Activity = z.infer<typeof ActivitySchema>;
@@ -18,6 +19,7 @@ export const ActivityWithoutIdSchema = z.object({
   description: z.string().optional(),
   date: z.coerce.date(),
   activityType: ActivityEnum,
+  classId: z.string().uuid(),
 });
 
 export type ActivityWithoutId = z.infer<typeof ActivityWithoutIdSchema>;
@@ -29,15 +31,8 @@ export const ActivityFetchSchema = z.object({
     description: z.string().optional(),
     date: z.coerce.date(),
     activityType: ActivityEnum,
+    classId: z.string().uuid(),
   }).array(),
-    // activities: z.array({z.object({
-    //         id: z.string().uuid(),
-    //         name: z.string().min(1, "Missing name"),
-    //         description: z.string().optional(),
-    //         date: z.coerce.date(),
-    //         activityType: ActivityEnum,
-    //     })
-    // })
 });
 
 export type ActivityFetch = z.infer<typeof ActivityFetchSchema>;

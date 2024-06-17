@@ -23,7 +23,7 @@ def get_students():
 
 @user_bp.route("/teacher", methods=["GET"])
 @login_required
-def get_students():
+def get_teachers():
     teachers = User.query.filter_by(userType="teacher").all()
     json_teachers = list(map(lambda x: x.to_json(), teachers))
     return {"teachers": json_teachers}
