@@ -14,14 +14,14 @@ def get_users():
     json_users = list(map(lambda x: x.to_json(), users))
     return {"users": json_users}
 
-@user_bp.route("/student", methods=["GET"])
+@user_bp.route("/students", methods=["GET"])
 @login_required
 def get_students():
     students = User.query.filter_by(userType="student").all()
     json_students = list(map(lambda x: x.to_json(), students))
     return {"students": json_students}
 
-@user_bp.route("/teacher", methods=["GET"])
+@user_bp.route("/teachers", methods=["GET"])
 @login_required
 def get_teachers():
     teachers = User.query.filter_by(userType="teacher").all()
