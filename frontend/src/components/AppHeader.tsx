@@ -4,7 +4,7 @@ import AddActivityModal from "./Activity/AddActivityModal"
 function AppHeader() {
   return (
     <div className={styles.appHeader}>
-      <AddActivityModal/>
+      {/* <AddActivityModal/> */}
     </div>
   )
 }
