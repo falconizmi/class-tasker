@@ -26,7 +26,7 @@ function Home() {
       </Button>
 
       <PageTitle>TODO List</PageTitle>
-      <div className={styles.app__wrapper}>
+      <div>
         <AppHeader />
         <AppContent />
       </div>
