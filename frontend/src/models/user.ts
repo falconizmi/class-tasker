@@ -3,6 +3,12 @@ import { z } from "zod";
 export const UserTypeEnum = z.enum(["student", "teacher"]);
 export type UserTypeEnum = z.infer<typeof UserTypeEnum>;
 
+export const EmailSchema = z.object({
+  email: z.string().email("Invalid email"),
+});
+
+export type Email = z.infer<typeof EmailSchema>;
+
 export const UserSchema = z.object({
   id: z.string().uuid(),
   firstName: z.string().min(1, "Missing first name"),

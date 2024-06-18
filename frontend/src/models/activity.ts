@@ -14,7 +14,16 @@ export const ActivitySchema = z.object({
 
 export type Activity = z.infer<typeof ActivitySchema>;
 
-export const ActivityWithoutIdSchema = z.object({
+export const ActivityFormSchema = z.object({
+  name: z.string().min(1, "Missing name"),
+  description: z.string().optional(),
+  date: z.coerce.date(),
+  activityType: ActivityEnum,
+});
+
+export type ActivityForm = z.infer<typeof ActivityFormSchema>;
+
+export const ActivityPostSchema = z.object({
   name: z.string().min(1, "Missing name"),
   description: z.string().optional(),
   date: z.coerce.date(),
@@ -22,7 +31,7 @@ export const ActivityWithoutIdSchema = z.object({
   classId: z.string().uuid(),
 });
 
-export type ActivityWithoutId = z.infer<typeof ActivityWithoutIdSchema>;
+export type ActivityPost = z.infer<typeof ActivityPostSchema>;
 
 export const ActivityFetchSchema = z.object({
   activities: z.object({

@@ -1,15 +1,29 @@
 import styles from "../../styles/modules/app.module.css";
-import PageTitle from "../PageTitle";
+import PageTitle from "@/components/shadcn/page-title";
 import AppHeader from "../AppHeader";
 import AppContent from "../AppContent";
 import { Button } from "../shadcn/button";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
+import { useUserByEmail } from "@/utils/userUtils";
 
 
 function Home() {
   const navigate = useNavigate();
-  const { logout } = useAuth();
+  const { userEmail, logout } = useAuth();
+  const { user, isLoading, isError } = useUserByEmail(userEmail);
+  
+  if (isLoading) {
+    return <div>Wating</div>;
+  }
+
+  if (isError) {
+    return <div>Error occured</div>;
+  }
+
+  if (!user) {
+    return <div>User not found</div>
+  }
 
   const handleLogout = () => {
     logout();
@@ -25,10 +39,9 @@ function Home() {
         Logout
       </Button>
 
-      <PageTitle>TODO List</PageTitle>
+      <PageTitle title="TODO List"/>
       <div>
-        <AppHeader />
-        <AppContent />
+        <AppContent user={user} />
       </div>
     </div>
   );

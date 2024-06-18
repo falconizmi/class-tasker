@@ -6,33 +6,31 @@ import { fetchActivities } from "../../api/activityApi";
 import { Result } from "@badrap/result";
 import { DataTable } from "../Activity/data-table";
 import { columns } from "../Activity/columns";
-import AddActivityModal from "../Activity/AddActivityModal";
+import AppActions from "../AppActions";
+import { useActivitiesClassId } from "@/utils/activityUtils";
 
-function ActivityPage() {
-  const activities = useQuery<Result<Activity[]>>({
-    queryKey: ["activities"],
-    queryFn: fetchActivities,
-    refetchOnWindowFocus: true,
-  });
 
-  if (activities.isLoading || !activities.data) {
+function ActivityPage({classPage}:{classPage: string | undefined}) {
+  const { activities, isLoading, isError } = useActivitiesClassId(classPage);
+
+  if (isLoading) {
     return <div>Wating</div>;
   }
 
-  if (activities.isError) {
+  if (isError) {
     return <div>Error occured</div>;
   }
 
-  if (activities.data.isErr) {
-    console.log(activities.data.error);
+  if (!activities) {
+    console.log(activities);
     return <div>Error occured in data</div>;
   }
 
   return (
     <div className="container">
-      <AddActivityModal />
+      <AppActions />
       <div className="mx-auto py-10"> 
-        <DataTable columns={columns} data={activities.data.value} />
+        <DataTable columns={columns} data={activities} />
       </div>
     </div>
   );
