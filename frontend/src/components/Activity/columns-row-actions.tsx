@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
-import DeleteForm from '@/components/Activity/forms/delete-form';
-import EditForm from '@/components/Activity/forms/edit-form';
+import DeleteActivityForm from '@/components/forms/DeleteActivityForm';
+import EditActivityForm from '@/components/forms/EditActivityForm';
 import { ResponsiveDialog } from '@/components/shadcn/responsive-dialog';
 import { Button } from '@/components/shadcn/button';
 import {
@@ -35,7 +35,7 @@ export function DataTableRowActions<TData extends WithId<string>>({
         setIsOpen={setIsEditOpen}
         title="Edit Activity"
       >
-        <EditForm cardId={cardId} setIsOpen={setIsEditOpen} />
+        <EditActivityForm activityId={cardId} setIsOpen={setIsEditOpen} />
       </ResponsiveDialog>
       <ResponsiveDialog
         isOpen={isDeleteOpen}
@@ -43,7 +43,7 @@ export function DataTableRowActions<TData extends WithId<string>>({
         title="Delete Activity"
         description="Are you sure you want to delete this activity?"
       >
-        <DeleteForm cardId={cardId} setIsOpen={setIsDeleteOpen} />
+        <DeleteActivityForm activityId={cardId} setIsOpen={setIsDeleteOpen} />
       </ResponsiveDialog>
 
       <DropdownMenu>
