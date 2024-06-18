@@ -11,7 +11,7 @@ import {
 } from '@/components/shadcn/form';
 import { Input } from '@/components/shadcn/input';
 import { Textarea } from '@/components/shadcn/textarea';
-import { useActivity } from '@/utils/activityUtils';
+import { useActivityByActivityId } from '@/utils/activityUtils';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Loader2 } from 'lucide-react';
 import { useForm } from 'react-hook-form';
@@ -19,8 +19,8 @@ import * as z from 'zod';
 import { v4 as uuid } from "uuid";
 import {
     ActivityEnum,
-    ActivityWithoutId,
-    ActivityWithoutIdSchema,
+    ActivityForm,
+    ActivityFormSchema,
   } from '@/models/activity';
 
 
@@ -65,29 +65,30 @@ import {
   
 
 export default function EditForm({
-  cardId,
+  activityId,
   setIsOpen,
 }: {
-  cardId: string;
+  activityId: string;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
 }) {
   const queryClient = useQueryClient();
-  const { activity: readActivity, isLoading: isActivityLoading, isError } = useActivity(cardId);
+  const { activity: readActivity, isLoading: isActivityLoading, isError } = useActivityByActivityId(activityId);
   
   const mutation = useMutation({
-    mutationFn: async (activity: ActivityWithoutId) => {
+    mutationFn: async (activity: ActivityForm) => {
       if (readActivity) {
         return await updateActivity({
           id: readActivity.id,
           ...activity,
+          classId: readActivity.classId,
         });
       }
       throw new Error("Activity not found");
     },
   });
 
-  const form = useForm<ActivityWithoutId>({
-    resolver: zodResolver(ActivityWithoutIdSchema),
+  const form = useForm<ActivityForm>({
+    resolver: zodResolver(ActivityFormSchema),
     defaultValues: {
       name: readActivity?.name,
       date: readActivity?.date,
@@ -97,7 +98,7 @@ export default function EditForm({
   });
 
   const isLoading = form.formState.isSubmitting;
-  const onSubmit = async (activity: ActivityWithoutId) => {
+  const onSubmit = async (activity: ActivityForm) => {
     try {
       console.log("SUBMITTED");
       mutation.mutate(activity);
@@ -164,7 +165,7 @@ export default function EditForm({
           name="date"
           control={form.control}
           render={({ field }: { field: any }) => (
-            <FormItem className="col-span-2 md:col-span-1">
+            <FormItem className="flex flex-col col-span-2 md:col-span-1">
               <FormLabel className="text-left">DateTime</FormLabel>
                     <Popover>
                       <FormControl>

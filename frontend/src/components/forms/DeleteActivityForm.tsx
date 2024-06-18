@@ -7,18 +7,18 @@ import { Loader2 } from "lucide-react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useActivity } from "@/utils/activityUtils";
+import { useActivityByActivityId } from "@/utils/activityUtils";
 import { deleteActivity } from "@/api/activityApi";
 
 const formSchema = z.object({
-  cardId: z.string(),
+  activityId: z.string(),
 });
 
 export default function DeleteForm({
-  cardId,
+  activityId,
   setIsOpen,
 }: {
-  cardId: string;
+  activityId: string;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
 }) {
   const queryClient = useQueryClient();
@@ -26,7 +26,7 @@ export default function DeleteForm({
     activity: readActivity,
     isLoading: isActivityLoading,
     isError,
-  } = useActivity(cardId);
+  } = useActivityByActivityId(activityId);
   const mutation = useMutation({
     mutationFn: async () => {
         if (readActivity) {
@@ -39,7 +39,7 @@ export default function DeleteForm({
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      cardId: cardId,
+      activityId: activityId,
     },
   });
 
