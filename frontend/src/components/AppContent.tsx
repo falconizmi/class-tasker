@@ -28,7 +28,7 @@ function AppContent({user}: {user: User}) {
           <div className="sm:h-[calc(99vh-60px)] overflow-auto ">
             <div className="w-full flex justify-center mx-auto   overflow-auto h-[calc(100vh - 120px)] overflow-y-auto relative">
               <div className="w-full md:max-w-6xl">
-                <ActivityPage classPage={classPage} />
+                {!class_ ? <div className="text-center">First join class</div> : <ActivityPage classPage={classPage} />}
               </div>
             </div>
           </div>
