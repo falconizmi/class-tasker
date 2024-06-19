@@ -6,7 +6,7 @@ import {
   ClassFetchSchema,
 } from "../models/class";
 import { Result } from "@badrap/result";
-import { User } from "@/models/auth";
+import { User } from "@/models/user";
 
 export const fetchClasses = async (): Promise<Result<Class_[]>> => {
   const data = await baseApi.get("/classes");
@@ -20,7 +20,7 @@ export const fetchClasses = async (): Promise<Result<Class_[]>> => {
 };
 
 export const fetchUserClasses = async (user: User): Promise<Result<Class_[]>> => {
-  const data = await baseApi.get(`/user/${user.id}`);
+  const data = await baseApi.get(`/classes/user/${user.id}`);
   const request = ClassFetchSchema.safeParse(data.data);
 
   if (!request.success) {
@@ -36,6 +36,21 @@ export const postClasses = async (class_: ClassWithoutId): Promise<void> => {
   });
   console.log(data);
 };
+
+export const joinClass = async (userId: string, classId: string): Promise<void> => {
+  const data = await baseApi.post("/classes/join", { user_id: userId, class_id: classId }, {
+    headers: { "Content-Type": "application/json" },
+  });
+  console.log(data);
+};
+
+export const leaveClass = async (userId: string, classId: string): Promise<void> => {
+  const data = await baseApi.post("/classes/leave", { user_id: userId, class_id: classId }, {
+    headers: { "Content-Type": "application/json" },
+  });
+  console.log(data);
+};
+
 
 export const updateClass = async (class_: Class_): Promise<void> => {
   const data = await baseApi.patch(`/classes/${class_.id}`, class_, {

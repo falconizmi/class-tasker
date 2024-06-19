@@ -14,6 +14,8 @@ export const ClassWithoutIdSchema = z.object({
 });
 
 export type ClassWithoutId = z.infer<typeof ClassWithoutIdSchema>;
+export const ClassFormSchema = ClassWithoutIdSchema;
+export type ClassForm = z.infer<typeof ClassWithoutIdSchema>;
 
 export const ClassFetchSchema = z.object({
   classes: z.object({
@@ -24,3 +26,5 @@ export const ClassFetchSchema = z.object({
 });
 
 export type ClassFetch = z.infer<typeof ClassFetchSchema>;
+
+

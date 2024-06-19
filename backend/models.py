@@ -63,7 +63,7 @@ class Class(Model):
 
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     name = Column(String(80), unique=False, nullable=False)
-    code = Column(String(80), unique=False, nullable=False)
+    code = Column(String(80), unique=True, nullable=False)
 
     # Many-to-Many relationship with User
     users = relationship('User', secondary='user_class', back_populates='classes')

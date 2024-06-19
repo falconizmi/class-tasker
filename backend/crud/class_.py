@@ -43,6 +43,60 @@ def create_class():
 
     return jsonify({"message": "User created new class"}), 201
 
+@class_bp.route("/join", methods=["POST"])
+@login_required
+def join_class():
+    user_id = request.json.get("user_id")
+    class_id = request.json.get("class_id")
+
+    if not user_id or not class_id:
+        return jsonify({"message": "You must include a user_id and class_id"}), 400
+
+    user = User.query.get(UUID(user_id))
+    class_ = Class.query.get(UUID(class_id))
+
+    if not user:
+        return jsonify({"message": "User not found"}), 404
+
+    if not class_:
+        return jsonify({"message": "Class not found"}), 404
+
+    # Check if the user is already enrolled in the class
+    if class_ in user.classes:
+        return jsonify({"message": "User is already enrolled in this class"}), 400
+
+    user.classes.append(class_)
+    db.session.commit()
+
+    return jsonify({"message": "User successfully joined the class"}), 200
+
+@class_bp.route("/leave", methods=["POST"])
+@login_required
+def leave_class():
+    user_id = request.json.get("user_id")
+    class_id = request.json.get("class_id")
+
+    if not user_id or not class_id:
+        return jsonify({"message": "You must include a user_id and class_id"}), 400
+
+    user = User.query.get(UUID(user_id))
+    class_ = Class.query.get(UUID(class_id))
+
+    if not user:
+        return jsonify({"message": "User not found"}), 404
+
+    if not class_:
+        return jsonify({"message": "Class not found"}), 404
+
+    # Check if the user is enrolled in the class
+    if class_ not in user.classes:
+        return jsonify({"message": "User is not enrolled in this class"}), 400
+
+    user.classes.remove(class_)
+    db.session.commit()
+
+    return jsonify({"message": "User successfully left the class"}), 200
+
 @class_bp.route("/<uuid:class_id>", methods=["PATCH"])
 @login_required
 def update_class(class_id: UUID):

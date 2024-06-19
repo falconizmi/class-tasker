@@ -61,6 +61,32 @@ export function useClassById(id: string | undefined) {
   return { class_, isLoading, isError };
 }
 
+export function useClassByCode(code: string) {
+  const { data, isLoading, isError } = useQuery<Result<Class_[]>>({
+    queryKey: ["classes"],
+    queryFn: fetchClasses,
+  });
+
+  if (isLoading) {
+    console.log("Waiting");
+    return { class_: null, isLoading, isError };
+  }
+
+  if (isError || !data) {
+    console.log("Error occurred");
+    return { class_: null, isLoading, isError };
+  }
+
+  if (data.isErr) {
+    console.log("Error occurred in data");
+    console.log(data.error);
+    return { class_: null, isLoading, isError };
+  }
+
+  const class_ = data.value.find((class_) => class_.code === code);
+  return { class_, isLoading, isError };
+}
+
 export function useClassesByUser(user: User) {
     const { data, isLoading, isError } = useQuery<Result<Class_[]>>({
       queryKey: ["classes"],
