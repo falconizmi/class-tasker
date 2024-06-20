@@ -26,13 +26,27 @@ def create_activity():
     if not name or not activity_type or not class_id:
         return jsonify({"message": "You must include a name and activity type, and class ID"}), 400
 
-    new_activity = Activity(
-        name=name, description=description, date=date, activity_type=activity_type,  class_id=class_id
-    )
     try:
+        # Ensure that class_id is a valid UUID
+        class_id = UUID(class_id)
+
+        # Create a new Activity instance
+        new_activity = Activity(
+            name=name,
+            description=description,
+            date=date,
+            activity_type=activity_type,
+            class_id=class_id
+        )
+
+        # Add to the session and commit
         db.session.add(new_activity)
         db.session.commit()
+    except ValueError as ve:
+        # Handle the case where class_id is not a valid UUID
+        return jsonify({"message": f"Invalid class ID: {ve}"}), 400
     except Exception as e:
+        # General exception handling
         return jsonify({"message": str(e)}), 400
 
     return jsonify({"message": "User created new activity"}), 201

@@ -44,6 +44,7 @@ function AppSideBar({
                   variant="ghost"
                   size="sm"
                   className="w-full justify-start font-normal"
+                  onClick={() => setClassPage(classItem.id)}
                 >
                   <Book className="mr-2 h-4 w-4" />
                   {classItem.name}

@@ -37,11 +37,12 @@ export const postClasses = async (class_: ClassWithoutId): Promise<void> => {
   console.log(data);
 };
 
-export const joinClass = async (userId: string, classId: string): Promise<void> => {
-  const data = await baseApi.post("/classes/join", { user_id: userId, class_id: classId }, {
+export const joinClass = async (userId: string, code: string): Promise<void> => {
+  const data = await baseApi.post("/classes/join", { user_id: userId, code: code }, {
     headers: { "Content-Type": "application/json" },
   });
   console.log(data);
+  console.log("joinclass api")
 };
 
 export const leaveClass = async (userId: string, classId: string): Promise<void> => {
