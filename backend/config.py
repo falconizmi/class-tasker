@@ -20,7 +20,7 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["SQLALCHEMY_ECHO"] = True
 
 # Session configuration
-app.config['SESSION_TYPE'] = 'filesystem'  # Use 'redis' for Redis-backed sessions
+app.config['SESSION_TYPE'] = 'filesystem' 
 app.config['SESSION_PERMANENT'] = False
 app.config['SESSION_USE_SIGNER'] = True
 app.config['SESSION_KEY_PREFIX'] = 'session:'
