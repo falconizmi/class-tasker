@@ -1,4 +1,4 @@
-import React, { Dispatch, ReactNode, SetStateAction, useState, useEffect } from 'react';
+import { Dispatch, SetStateAction} from 'react';
 
 import { Button } from '@/components/shadcn/button';
 import {
@@ -15,8 +15,6 @@ import { useActivityByActivityId } from '@/utils/activityUtils';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Loader2 } from 'lucide-react';
 import { useForm } from 'react-hook-form';
-import * as z from 'zod';
-import { v4 as uuid } from "uuid";
 import {
     ActivityEnum,
     ActivityForm,
@@ -27,30 +25,16 @@ import {
   import { useMutation, useQueryClient } from "@tanstack/react-query";
   import { updateActivity } from "@/api/activityApi";
 
-  
-  import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogFooter,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger,
-  } from "@/components/shadcn/dialog";
-  import { Label } from "@/components/shadcn/label";
   import {
     Select,
     SelectContent,
-    SelectGroup,
     SelectItem,
-    SelectLabel,
     SelectTrigger,
     SelectValue,
   } from "@/components/shadcn/select";
-  import { DateTimePicker } from "@/components/DatePicker/date-time-picker";
   
   import { format } from "date-fns";
-  import { Calendar as CalendarIcon, Key } from "lucide-react";
+  import { Calendar as CalendarIcon } from "lucide-react";
   import { cn } from "@/lib/utils";
   import { Calendar } from "@/components/shadcn/calendar";
   import {
@@ -59,10 +43,6 @@ import {
     PopoverTrigger,
   } from "@/components/shadcn/popover";
   import { TimePickerDemo } from "@/components/shadcn/time-picker-demo";
-  
-
-  import { toast } from "@/components/shadcn/use-toast";
-  
 
 export default function EditForm({
   activityId,

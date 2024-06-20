@@ -1,6 +1,4 @@
-import styles from "../../styles/modules/app.module.css";
 import PageTitle from "@/components/shadcn/page-title";
-import AppHeader from "../AppHeader";
 import AppContent from "../AppContent";
 import { Button } from "../shadcn/button";
 import { useNavigate } from "react-router-dom";

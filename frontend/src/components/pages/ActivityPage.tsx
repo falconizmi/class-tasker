@@ -1,9 +1,3 @@
-import { useQuery } from "@tanstack/react-query";
-import React from "react";
-import ActivityItem from "../Activity/ActivityItem";
-import { Activity } from "../../models/activity";
-import { fetchActivities } from "../../api/activityApi";
-import { Result } from "@badrap/result";
 import { DataTable } from "../Activity/data-table";
 import { columns } from "../Activity/columns";
 import AppActions from "../AppActions";

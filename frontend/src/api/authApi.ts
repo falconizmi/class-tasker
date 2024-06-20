@@ -1,6 +1,6 @@
 import baseApi from "./index";
-import { Login, LoginSchema, SessionSchema } from "../models/auth";
-import { UserWithoutId, UserWithoutIdSchema } from "../models/user";
+import { Login, SessionSchema } from "../models/auth";
+import { UserWithoutId } from "../models/user";
 import { Result } from "@badrap/result";
 
 export const registerUser = async (user: UserWithoutId): Promise<Result<void>> => {

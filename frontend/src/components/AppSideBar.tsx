@@ -1,7 +1,6 @@
-import { Book, LayoutGrid, PlayCircle, Radio } from "lucide-react"; // Adjust the import according to your project setup
+import { Book} from "lucide-react";
 import { Button } from "@/components/shadcn/button";
 import { ScrollArea } from "@/components/shadcn/scroll-area";
-import { Class_ } from "@/models/class";
 import { Dispatch, SetStateAction } from "react";
 import { User } from "@/models/user";
 import { useClassesByUser } from "@/utils/classUtils";
