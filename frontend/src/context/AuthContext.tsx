@@ -1,9 +1,8 @@
-import React, { createContext, useState, useEffect, ReactNode } from 'react';
+import React, { createContext, useState, useEffect, ReactNode, useContext } from 'react';
 import { checkUserSession, loginUser, logoutUser, registerUser } from '../api/authApi';
 import { Login } from '../models/auth';
 import { Email, UserWithoutId } from '../models/user';
 import { Result } from '@badrap/result';
-import { z } from "zod";
 
 interface AuthContextProps {
   isAuthenticated: boolean;
@@ -16,14 +15,21 @@ interface AuthContextProps {
 const AuthContext = createContext<AuthContextProps | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [userEmail, setUserEmail] = useState<Email | undefined>(undefined);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const [userEmail, setUserEmail] = useState<Email | undefined>(() => {
+    const storedEmail = localStorage.getItem('userEmail');
+    return storedEmail ? { email: storedEmail } : undefined;
+  });
 
   useEffect(() => {
     const fetchSession = async () => {
       const sessionResult = await checkUserSession();
       if (sessionResult.isOk) {
         setIsAuthenticated(sessionResult.value);
+        const storedEmail = localStorage.getItem('userEmail');
+        if (storedEmail) {
+          setUserEmail({ email: storedEmail });
+        }
       }
     };
 
@@ -44,6 +50,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     if (result.isOk) {
       setIsAuthenticated(true);
       setUserEmail({ email: data.email });
+      localStorage.setItem('userEmail', data.email);
     }
     return result;
   };
@@ -53,6 +60,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     if (result.isOk) {
       setIsAuthenticated(false);
       setUserEmail(undefined);
+      localStorage.removeItem('userEmail');
     }
     return result;
   };
@@ -64,8 +72,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   );
 };
 
-export const useAuth = () => {
-  const context = React.useContext(AuthContext);
+export const useAuth = (): AuthContextProps => {
+  const context = useContext(AuthContext);
   if (context === undefined) {
     throw new Error('useAuth must be used within an AuthProvider');
   }
