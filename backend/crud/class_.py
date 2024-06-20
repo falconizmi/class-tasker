@@ -47,13 +47,13 @@ def create_class():
 @login_required
 def join_class():
     user_id = request.json.get("user_id")
-    class_id = request.json.get("class_id")
+    code = request.json.get("code")
 
-    if not user_id or not class_id:
-        return jsonify({"message": "You must include a user_id and class_id"}), 400
+    if not user_id or not code:
+        return jsonify({"message": "You must include a user_id and code"}), 400
 
     user = User.query.get(UUID(user_id))
-    class_ = Class.query.get(UUID(class_id))
+    class_ = Class.query.filter_by(code=code).first()
 
     if not user:
         return jsonify({"message": "User not found"}), 404
@@ -69,6 +69,7 @@ def join_class():
     db.session.commit()
 
     return jsonify({"message": "User successfully joined the class"}), 200
+
 
 @class_bp.route("/leave", methods=["POST"])
 @login_required

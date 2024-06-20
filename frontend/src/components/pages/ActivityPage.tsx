@@ -10,7 +10,7 @@ import AppActions from "../AppActions";
 import { useActivitiesClassId } from "@/utils/activityUtils";
 
 
-function ActivityPage({classPage}:{classPage: string | undefined}) {
+function ActivityPage({classPage}:{classPage: string}) {
   const { activities, isLoading, isError } = useActivitiesClassId(classPage);
 
   if (isLoading) {
@@ -28,7 +28,7 @@ function ActivityPage({classPage}:{classPage: string | undefined}) {
 
   return (
     <div className="container">
-      <AppActions />
+      <AppActions classId={classPage}/>
       <div className="mx-auto py-10"> 
         <DataTable columns={columns} data={activities} />
       </div>

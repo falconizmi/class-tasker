@@ -11,7 +11,7 @@ import {
 } from '@/components/shadcn/form';
 import { Input } from '@/components/shadcn/input';
 import { Textarea } from '@/components/shadcn/textarea';
-import { useClassByCode, useClassById } from '@/utils/classUtils';
+import { useClassByCode } from '@/utils/classUtils';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Loader2 } from 'lucide-react';
 import { useForm } from 'react-hook-form';
@@ -78,20 +78,8 @@ export default function JoinClassForm({
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: async (code: string) => {
-      const { class_, isLoading, isError } = useClassByCode(code);
-
-      if (isLoading) {
-        console.log("Waiting for class data...");
-        return;
-      }
-
-      if (isError || !class_) {
-        console.error("Error occurred while fetching class data or class not found.");
-        throw new Error("Error fetching class data");
-      }
-
       console.log("join class will used")
-      return await joinClass(userId, class_.id);
+      return await joinClass(userId, code);
     },
   });
 
@@ -105,8 +93,9 @@ export default function JoinClassForm({
   const isLoading = form.formState.isSubmitting;
   const onSubmit = async (f: FormType) => {
     try {
-      console.log("SUBMITTED");
+      console.log("SUBMITTED JOIN");
       mutation.mutate(f.code);
+      console.log("MUTation finished");
       queryClient.invalidateQueries({ queryKey: ["classes"], refetchType:"all" });
       setIsOpen(false);
     } catch (error) {
