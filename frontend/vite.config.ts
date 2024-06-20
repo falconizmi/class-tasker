@@ -10,4 +10,7 @@ export default defineConfig({
             "@": path.resolve(__dirname, "./src"),
         },
     },
+    build: {
+        outDir: 'dist', // This is the default directory where the build will be output
+      },
 });

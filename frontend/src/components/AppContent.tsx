@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import ActivityPage from "./pages/ActivityPage";
 import AppSideBar from "./AppSideBar";
 import PageTitle from "@/components/shadcn/page-title";
-import { useClassById } from "@/utils/classUtils";
+import { useClassByClassId } from "@/utils/classUtils";
 import { User } from "@/models/user";
 
 function AppContent({user}: {user: User}) {
   const [classPage, setClassPage] = useState<string | undefined>(undefined);
-  const { class_, isLoading, isError } = useClassById(classPage);
+  const { class_, isLoading, isError } = useClassByClassId(classPage);
 
   return (
     <div>
@@ -30,7 +30,7 @@ function AppContent({user}: {user: User}) {
               <div className="w-full md:max-w-6xl">
                 {!class_ 
                   ? <div className="text-center">First join class</div>
-                  : <ActivityPage classPage={class_.id} />}
+                  : <ActivityPage user={user} classPage={class_.id} />}
               </div>
             </div>
           </div>

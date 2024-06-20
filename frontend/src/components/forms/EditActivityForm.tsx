@@ -102,7 +102,7 @@ export default function EditForm({
     try {
       console.log("SUBMITTED");
       mutation.mutate(activity);
-      queryClient.invalidateQueries({ queryKey: ["activities"], refetchType:"all" });
+      queryClient.invalidateQueries({ queryKey: ["activities", readActivity?.id], refetchType:"all" });
       console.log(activity.date)
       setIsOpen(false);
     } catch (error) {

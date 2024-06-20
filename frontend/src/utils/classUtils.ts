@@ -30,9 +30,9 @@ export function useClasses() {
     return { classes, isLoading, isError };
   }
 
-export function useClassById(id: string | undefined) {
+export function useClassByClassId(classId: string | undefined) {
   const { data, isLoading, isError } = useQuery<Result<Class_[]>>({
-    queryKey: ["classes"],
+    queryKey: ["classes", classId],
     queryFn: fetchClasses,
   });
 
@@ -52,18 +52,18 @@ export function useClassById(id: string | undefined) {
     return { class_: null, isLoading, isError };
   }
 
-  if (!id) {
+  if (!classId) {
     console.log("No class found");
     return { class_: null, isLoading, isError };
   } 
 
-  const class_ = data.value.find((class_) => class_.id === id);
+  const class_ = data.value.find((class_) => class_.id === classId);
   return { class_, isLoading, isError };
 }
 
 export function useClassByCode(code: string) {
   const { data, isLoading, isError } = useQuery<Result<Class_[]>>({
-    queryKey: ["classes"],
+    queryKey: ["classes", code],
     queryFn: fetchClasses,
   });
 
@@ -89,7 +89,7 @@ export function useClassByCode(code: string) {
 
 export function useClassesByUser(user: User) {
     const { data, isLoading, isError } = useQuery<Result<Class_[]>>({
-      queryKey: ["classes"],
+      queryKey: ["classes", user.id],
       queryFn: () => fetchUserClasses(user),
       enabled: !!user,
     });
