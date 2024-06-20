@@ -5,7 +5,7 @@ import { Result } from "@badrap/result";
 
 export function useActivitiesClassId(classId: string | undefined) {
   const { data, isLoading, isError } = useQuery<Result<Activity[]>>({
-    queryKey: ["activities"],
+    queryKey: ["activities", classId],
     queryFn: fetchActivities,
   });
 
@@ -34,9 +34,9 @@ export function useActivitiesClassId(classId: string | undefined) {
   return { activities, isLoading, isError };
 }
 
-export function useActivityByActivityId(id: string) {
+export function useActivityByActivityId(activityId: string) {
   const { data, isLoading, isError } = useQuery<Result<Activity[]>>({
-    queryKey: ["activities"],
+    queryKey: ["activities", activityId],
     queryFn: fetchActivities,
   });
 
@@ -56,6 +56,6 @@ export function useActivityByActivityId(id: string) {
     return { activity: null, isLoading, isError };
   }
 
-  const activity = data.value.find((activity) => activity.id === id);
+  const activity = data.value.find((activity) => activity.id === activityId);
   return { activity, isLoading, isError };
 }

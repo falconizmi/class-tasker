@@ -8,6 +8,7 @@ import { useClassesByUser } from "@/utils/classUtils";
 import ClassActions from "@/components/Class/ClassActions";
 import CreateClassModal from "./modals/CreateClassModal";
 import JoinClassModal from "./modals/JoinClassModal";
+import { UserTypeEnum } from "@/models/user";
 
 function AppSideBar({
   setClassPage,
@@ -30,9 +31,14 @@ function AppSideBar({
   console.log("Show classes in side bar");
   return (
     <div className="flex flex-col">
-      <CreateClassModal />
-      <JoinClassModal userId={user.id} />
-      <div className="pb-12 mx-auto py-10">
+      
+      <div className="grid justify-items-center">
+      
+      {user.userType === UserTypeEnum.Values.teacher ? <CreateClassModal /> : <div></div> }
+      <div className="py-4"><JoinClassModal userId={user.id} /> </div>
+      </div>
+      
+      <div className="pb-12 mx-auto">
         <h2 className="relative px-6 text-lg font-semibold tracking-tight">
           Classes
         </h2>
@@ -47,7 +53,7 @@ function AppSideBar({
                   onClick={() => setClassPage(classItem.id)}
                 >
                   <Book className="mr-2 h-4 w-4" />
-                  {classItem.name}
+                  {classItem.code}
                 </Button>
                 <ClassActions
                   classId={classItem.id}

@@ -11,7 +11,7 @@ import {
 } from '@/components/shadcn/form';
 import { Input } from '@/components/shadcn/input';
 import { Textarea } from '@/components/shadcn/textarea';
-import { useClassById } from '@/utils/classUtils';
+import { useClassByClassId } from '@/utils/classUtils';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Loader2 } from 'lucide-react';
 import { useForm } from 'react-hook-form';
@@ -71,7 +71,7 @@ export default function EditClassForm({
   setIsOpen: Dispatch<SetStateAction<boolean>>;
 }) {
   const queryClient = useQueryClient();
-  const { class_: readClass, isLoading: isClassLoading, isError } = useClassById(classId);
+  const { class_: readClass, isLoading: isClassLoading, isError } = useClassByClassId(classId);
   
   const mutation = useMutation({
     mutationFn: async (class_: ClassForm) => {
@@ -98,7 +98,7 @@ export default function EditClassForm({
     try {
       console.log("SUBMITTED");
       mutation.mutate(class_);
-      queryClient.invalidateQueries({ queryKey: ["activities"], refetchType:"all" });
+      queryClient.invalidateQueries({ queryKey: ["classes"], refetchType:"all" });
       setIsOpen(false);
     } catch (error) {
       console.log(error);

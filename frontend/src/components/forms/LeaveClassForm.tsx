@@ -46,7 +46,7 @@ export default function LeaveClassForm({
     try {
         console.log("SUBMITTED");
         mutation.mutate();
-        queryClient.invalidateQueries({ queryKey: ["classes"] });
+        queryClient.invalidateQueries({ queryKey: ["classes"], refetchType:"all" });
 
         setIsOpen(false);
     } catch (error) {

@@ -5,7 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 
 export function useUserByEmail(email: Email | undefined) {
     const { data, isLoading, isError } = useQuery<Result<User[]>>({
-      queryKey: ["users"],
+      queryKey: ["users", email],
       queryFn: fetchUsers,
     });
   

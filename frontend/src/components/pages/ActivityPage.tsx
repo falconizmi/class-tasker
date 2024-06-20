@@ -8,9 +8,11 @@ import { DataTable } from "../Activity/data-table";
 import { columns } from "../Activity/columns";
 import AppActions from "../AppActions";
 import { useActivitiesClassId } from "@/utils/activityUtils";
+import { User } from "@/models/user";
+import { UserTypeEnum } from "@/models/user";
 
 
-function ActivityPage({classPage}:{classPage: string}) {
+function ActivityPage({user, classPage}:{user: User, classPage: string}) {
   const { activities, isLoading, isError } = useActivitiesClassId(classPage);
 
   if (isLoading) {
@@ -28,7 +30,8 @@ function ActivityPage({classPage}:{classPage: string}) {
 
   return (
     <div className="container">
-      <AppActions classId={classPage}/>
+      {user.userType === UserTypeEnum.Values.teacher ? <AppActions classId={classPage}/> : <div></div> }
+      
       <div className="mx-auto py-10"> 
         <DataTable columns={columns} data={activities} />
       </div>
