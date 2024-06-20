@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import ActivityPage from "./pages/ActivityPage";
 import AppSideBar from "./AppSideBar";
 import PageTitle from "@/components/shadcn/page-title";
