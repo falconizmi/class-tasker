@@ -12,7 +12,7 @@ import { Input } from "@/components/shadcn/input";
 import { Label } from "@/components/shadcn/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/shadcn/select";
 import { useAuth } from "@/context/AuthContext";
-import { UserWithoutId } from "@/models/auth";
+import { UserWithoutId } from "@/models/user";
 
 export default function RegisterForm() {
   const [firstName, setFirstName] = useState("");
@@ -47,7 +47,7 @@ export default function RegisterForm() {
         <form onSubmit={handleSubmit} className="grid gap-4">
           <div className="grid grid-cols-2 gap-4">
             <div className="grid gap-2">
-              <Label htmlFor="first-name">First name</Label>
+              <Label className="text-left" htmlFor="first-name">First name</Label>
               <Input
                 id="first-name"
                 placeholder="Max"
@@ -57,7 +57,7 @@ export default function RegisterForm() {
               />
             </div>
             <div className="grid gap-2">
-              <Label htmlFor="last-name">Last name</Label>
+              <Label className="text-left" htmlFor="last-name">Last name</Label>
               <Input
                 id="last-name"
                 placeholder="Robinson"
@@ -68,7 +68,7 @@ export default function RegisterForm() {
             </div>
           </div>
           <div className="grid gap-2">
-            <Label htmlFor="email">Email</Label>
+            <Label className="text-left" htmlFor="email">Email</Label>
             <Input
               id="email"
               type="email"
@@ -79,7 +79,7 @@ export default function RegisterForm() {
             />
           </div>
           <div className="grid gap-2">
-            <Label htmlFor="password">Password</Label>
+            <Label className="text-left" htmlFor="password">Password</Label>
             <Input
               id="password"
               type="password"
@@ -89,7 +89,7 @@ export default function RegisterForm() {
             />
           </div>
           <div className="grid gap-2">
-            <Label htmlFor="user-type">User Type</Label>
+            <Label className="text-left" htmlFor="user-type">User Type</Label>
             <Select value={userType} onValueChange={(value) => setUserType(value as "student" | "teacher")}>
               <SelectTrigger id="user-type">
                 <SelectValue placeholder="Select user type" />
