@@ -34,7 +34,7 @@ export default function LoginForm() {
   };
 
   return (
-    <Card className="mx-auto max-w-sm">
+    <Card className="mx-auto max-w-sm p-6">
       <CardHeader>
         <CardTitle className="text-2xl">Login</CardTitle>
         <CardDescription>
@@ -44,7 +44,7 @@ export default function LoginForm() {
       <CardContent>
         <form onSubmit={handleSubmit} className="grid gap-4">
           <div className="grid gap-2">
-            <Label htmlFor="email">Email</Label>
+            <Label className="text-left" htmlFor="email">Email</Label>
             <Input
               id="email"
               type="email"
@@ -55,9 +55,7 @@ export default function LoginForm() {
             />
           </div>
           <div className="grid gap-2">
-            <div className="flex items-center">
-              <Label htmlFor="password">Password</Label>
-            </div>
+            <Label className="text-left" htmlFor="password">Password</Label>
             <Input
               id="password"
               type="password"
