@@ -65,10 +65,10 @@ import {
   
 
 export default function AddActivityForm({
-  class_id,
+  classroom_id,
   setIsOpen,
 }: {
-  class_id: string;
+  classroom_id: string;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
 }) {
   const queryClient = useQueryClient();
@@ -77,7 +77,7 @@ export default function AddActivityForm({
     mutationFn: async (activity: ActivityForm) => {
         return await postActivities({
           ...activity,
-          class_id: class_id
+          classroom_id: classroom_id
         });
     },
   });
@@ -97,7 +97,7 @@ export default function AddActivityForm({
     try {
       console.log("SUBMITTED");
       mutation.mutate(activity);
-      queryClient.invalidateQueries({ queryKey: ["activities", class_id], refetchType:"all" });
+      queryClient.invalidateQueries({ queryKey: ["activities", classroom_id], refetchType:"all" });
       console.log(activity.date)
       setIsOpen(false);
     } catch (error) {

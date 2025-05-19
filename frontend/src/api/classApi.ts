@@ -44,8 +44,8 @@ export const joinClass = async (userId: string, code: string): Promise<void> => 
   console.log("joinclass api")
 };
 
-export const leaveClass = async (userId: string, class_id: string): Promise<void> => {
-  const data = await baseApi.post("/classrooms/leave", { user_id: userId, class_id: class_id }, {
+export const leaveClass = async (userId: string, classroom_id: string): Promise<void> => {
+  const data = await baseApi.post("/classrooms/leave", { user_id: userId, classroom_id: classroom_id }, {
     headers: { "Content-Type": "application/json" },
   });
   console.log(data);
@@ -59,7 +59,7 @@ export const updateClass = async (class_: Class_): Promise<void> => {
   console.log(data);
 };
 
-export const deleteClass = async (class_id: string): Promise<void> => {
-  const data = await baseApi.delete(`/classrooms/${class_id}`);
+export const deleteClass = async (classroom_id: string): Promise<void> => {
+  const data = await baseApi.delete(`/classrooms/${classroom_id}`);
   console.log(data);
 };

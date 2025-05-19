@@ -9,7 +9,7 @@ export const ActivitySchema = z.object({
   description: z.string().optional(),
   date: z.coerce.date(),
   activity_type: ActivityEnum,
-  class_id: z.string().uuid(),
+  classroom_id: z.string().uuid(),
 });
 
 export type Activity = z.infer<typeof ActivitySchema>;
@@ -28,7 +28,7 @@ export const ActivityPostSchema = z.object({
   description: z.string().optional(),
   date: z.coerce.date(),
   activity_type: ActivityEnum,
-  class_id: z.string().uuid(),
+  classroom_id: z.string().uuid(),
 });
 
 export type ActivityPost = z.infer<typeof ActivityPostSchema>;
@@ -42,7 +42,7 @@ export const ActivityFetchSchema = z.object({
       description: z.string().optional(),
       date: z.coerce.date(),
       activity_type: ActivityEnum,
-      class_id: z.string().uuid(),
+      classroom_id: z.string().uuid(),
     })
     .array(),
 });

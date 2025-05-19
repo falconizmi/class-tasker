@@ -64,14 +64,14 @@ import {
   
 
 export default function EditClassForm({
-  class_id,
+  classroom_id,
   setIsOpen,
 }: {
-  class_id: string;
+  classroom_id: string;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
 }) {
   const queryClient = useQueryClient();
-  const { class_: readClass, isLoading: isClassLoading, isError } = useClassByClassId(class_id);
+  const { class_: readClass, isLoading: isClassLoading, isError } = useClassByClassId(classroom_id);
   
   const mutation = useMutation({
     mutationFn: async (class_: ClassForm) => {

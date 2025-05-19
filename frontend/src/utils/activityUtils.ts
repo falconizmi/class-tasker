@@ -3,7 +3,7 @@ import { fetchActivities } from "@/api/activityApi";
 import { Activity } from "@/models/activity";
 import { Result } from "@badrap/result";
 
-export function useActivitiesClassId(class_id: string | undefined) {
+export function useActivitiesClassId(classroom_id: string | undefined) {
   const { data, isLoading, isError } = useQuery<Result<Activity[]>>({
     queryKey: ["activities"],
     queryFn: fetchActivities,
@@ -25,12 +25,12 @@ export function useActivitiesClassId(class_id: string | undefined) {
     return { activities: null, isLoading, isError };
   }
 
-  if (!class_id) {
+  if (!classroom_id) {
     console.log("No classroom specified");
     return { activities: [], isLoading, isError };
   } 
 
-  const activities = data.value.filter((activity) => activity.class_id === class_id);
+  const activities = data.value.filter((activity) => activity.classroom_id === classroom_id);
   return { activities, isLoading, isError };
 }
 

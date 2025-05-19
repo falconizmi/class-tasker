@@ -60,7 +60,7 @@ export default function EditForm({
         return await updateActivity({
           id: readActivity.id,
           ...activity,
-          class_id: readActivity.class_id,
+          classroom_id: readActivity.classroom_id,
         });
       }
       throw new Error("Activity not found");

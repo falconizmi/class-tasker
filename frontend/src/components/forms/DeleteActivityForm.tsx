@@ -49,7 +49,7 @@ export default function DeleteForm({
     try {
         console.log("SUBMITTED");
         mutation.mutate();
-        queryClient.invalidateQueries({ queryKey: ["activities", readActivity?.class_id] });
+        queryClient.invalidateQueries({ queryKey: ["activities", readActivity?.classroom_id] });
 
         setIsOpen(false);
     } catch (error) {

@@ -30,7 +30,7 @@ export function useClasses() {
     return { classrooms, isLoading, isError };
   }
 
-export function useClassByClassId(class_id: string | undefined) {
+export function useClassByClassId(classroom_id: string | undefined) {
   const { data, isLoading, isError } = useQuery<Result<Class_[]>>({
     queryKey: ["classrooms"],
     queryFn: fetchClasses,
@@ -52,12 +52,12 @@ export function useClassByClassId(class_id: string | undefined) {
     return { class_: null, isLoading, isError };
   }
 
-  if (!class_id) {
+  if (!classroom_id) {
     console.log("No classroom found");
     return { class_: null, isLoading, isError };
   } 
 
-  const class_ = data.value.find((class_) => class_.id === class_id);
+  const class_ = data.value.find((class_) => class_.id === classroom_id);
   return { class_, isLoading, isError };
 }
 

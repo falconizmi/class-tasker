@@ -17,8 +17,8 @@ import IconMenu from '@/utils/iconMenu';
 
 export default function ClassActions({
   userId,
-  class_id
-}: {userId: string, class_id: string}) {
+  classroom_id
+}: {userId: string, classroom_id: string}) {
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [isLeaveOpen, setIsLeaveOpen] = useState(false);
   return (
@@ -28,7 +28,7 @@ export default function ClassActions({
         setIsOpen={setIsEditOpen}
         title="Edit Classroom"
       >
-        <EditClassForm class_id={class_id} setIsOpen={setIsEditOpen} />
+        <EditClassForm classroom_id={classroom_id} setIsOpen={setIsEditOpen} />
       </ResponsiveDialog>
       <ResponsiveDialog
         isOpen={isLeaveOpen}
@@ -36,7 +36,7 @@ export default function ClassActions({
         title="Leave Classroom"
         description="Are you sure you want to leave this classroom?"
       >
-        <LeaveClassForm class_id={class_id} userId={userId}setIsOpen={setIsLeaveOpen} />
+        <LeaveClassForm classroom_id={classroom_id} userId={userId}setIsOpen={setIsLeaveOpen} />
       </ResponsiveDialog>
 
       <DropdownMenu>

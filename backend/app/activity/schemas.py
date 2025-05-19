@@ -17,9 +17,10 @@ class ActivityRead(ActivityBase):
 
     class Config:
         from_attributes = True
+        use_enum_values = True
 
 class ActivityCreate(ActivityBase):
-    id: uuid.UUID
 
     class Config:
         from_attributes = True
+        use_enum_values = True

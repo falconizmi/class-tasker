@@ -55,7 +55,7 @@ function AppSideBar({
                   {classItem.code}
                 </Button>
                 <ClassActions
-                  class_id={classItem.id}
+                  classroom_id={classItem.id}
                   userId={user.id}
                 ></ClassActions>
               </div>
