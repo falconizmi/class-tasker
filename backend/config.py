@@ -1,30 +1,31 @@
-from flask import Flask
-from flask_cors import CORS
-from flask_sqlalchemy import SQLAlchemy
-from flask_session import Session
-from dotenv import load_dotenv
 import os
-from flask_bcrypt import Bcrypt
-from flask_migrate import Migrate
-
-app = Flask(__name__)
-CORS(app, supports_credentials=True, resources={r"/*": {"origins": "*"}})
-bcrypt = Bcrypt(app)
-
-app.url_map.strict_slashes = False  # Handle trailing slashes consistently
+from dotenv import load_dotenv
 
 load_dotenv()
-app.config["SECRET_KEY"] = os.environ["SECRET_KEY"]
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///mydatabase.db"
-app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-app.config["SQLALCHEMY_ECHO"] = True
 
-# Session configuration
-app.config['SESSION_TYPE'] = 'filesystem' 
-app.config['SESSION_PERMANENT'] = False
-app.config['SESSION_USE_SIGNER'] = True
-app.config['SESSION_KEY_PREFIX'] = 'session:'
+class Config:
+    SECRET_KEY = os.environ.get("SECRET_KEY", "defaultsecret")
+    # CORS_ORIGINS = os.environ.get("CORS_ORIGINS", "*") # TODO use this but instad *, put the page domain
+    allowed_origins = [
+        "http://localhost:5173",
+        "http://127.0.0.1:5173",
+        "https://yourfrontend.com",
+    ]
+    CORS_ORIGINS = allowed_origins
 
-db = SQLAlchemy(app)
-migrate = Migrate(app, db)
-Session(app)
+# TODO check the link below to setup heroku for remote datbase
+# https://realpython.com/flask-by-example-part-1-project-setup/
+# https://realpython.com/flask-by-example-part-2-postgres-sqlalchemy-and-alembic/
+# or here to setup neon db
+# https://neon.tech/guides/flask-database-migrations
+
+
+class ProductionConfig(Config):
+    DEBUG = False
+    ENV = "production"
+    DATABASE_URL = os.environ.get("DATABASE_URL")
+
+class DevelopmentConfig(Config):
+    DEBUG = True
+    ENV = "development"
+    DATABASE_URL = os.environ.get("DATABASE_URL")

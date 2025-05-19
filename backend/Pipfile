@@ -6,14 +6,15 @@ name = "pypi"
 [packages]
 flask = "*"
 flask-cors = "*"
-flask-sqlalchemy = "*"
 sqlalchemy = "*"
 bcrypt = "*"
 python-dateutil = "*"
 python-dotenv = "*"
+requests = "*"
+psycopg2-binary = "*"
 flask-bcrypt = "*"
-flask-session = "*"
-flask-migrate = "*"
+pydantic = {extras = ["email"], version = "*"}
+alembic = "*"
 
 [dev-packages]
 mypy = "*"
