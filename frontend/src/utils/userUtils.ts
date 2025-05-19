@@ -5,7 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 
 export function useUserByEmail(email: Email | undefined) {
     const { data, isLoading, isError } = useQuery<Result<User[]>>({
-      queryKey: ["users", email],
+      queryKey: ["users"],
       queryFn: fetchUsers,
     });
   
@@ -21,7 +21,7 @@ export function useUserByEmail(email: Email | undefined) {
   
     if (data.isErr) {
       console.log("Error occurred in data");
-      console.log(data.error);
+      console.log(data.error.message);
       return { class_: null, isLoading, isError };
     }
   

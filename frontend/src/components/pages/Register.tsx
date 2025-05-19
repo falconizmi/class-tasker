@@ -15,18 +15,18 @@ import { useAuth } from "@/context/AuthContext";
 import { UserWithoutId } from "@/models/user";
 
 export default function RegisterForm() {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
+  const [first_name, setFirstName] = useState("");
+  const [last_name, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [userType, setUserType] = useState<"student" | "teacher">("student");
+  const [user_type, setUserType] = useState<"student" | "teacher">("student");
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
   const { register } = useAuth();
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    const user: UserWithoutId = { firstName, lastName, email, password, userType };
+    const user: UserWithoutId = { first_name, last_name, email, password, user_type };
     const result = await register(user);
     if (result.isOk) {
       navigate("/login");
@@ -51,7 +51,7 @@ export default function RegisterForm() {
               <Input
                 id="first-name"
                 placeholder="Max"
-                value={firstName}
+                value={first_name}
                 onChange={(e) => setFirstName(e.target.value)}
                 required
               />
@@ -61,7 +61,7 @@ export default function RegisterForm() {
               <Input
                 id="last-name"
                 placeholder="Robinson"
-                value={lastName}
+                value={last_name}
                 onChange={(e) => setLastName(e.target.value)}
                 required
               />
@@ -90,7 +90,7 @@ export default function RegisterForm() {
           </div>
           <div className="grid gap-2">
             <Label className="text-left" htmlFor="user-type">User Type</Label>
-            <Select value={userType} onValueChange={(value) => setUserType(value as "student" | "teacher")}>
+            <Select value={user_type} onValueChange={(value) => setUserType(value as "student" | "teacher")}>
               <SelectTrigger id="user-type">
                 <SelectValue placeholder="Select user type" />
               </SelectTrigger>

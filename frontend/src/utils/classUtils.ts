@@ -1,12 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
 import { fetchClasses, fetchUserClasses } from "@/api/classApi";
-import { Class_ } from "@/models/class";
+import { Class_ } from "@/models/classroom";
 import { User } from "@/models/user";
 import { Result } from "@badrap/result";
 
 export function useClasses() {
     const { data, isLoading, isError } = useQuery<Result<Class_[]>>({
-      queryKey: ["classes"],
+      queryKey: ["classrooms"],
       queryFn: fetchClasses,
     });
   
@@ -26,13 +26,13 @@ export function useClasses() {
       return { class_: null, isLoading, isError };
     }
   
-    const classes = data.value;
-    return { classes, isLoading, isError };
+    const classrooms = data.value;
+    return { classrooms, isLoading, isError };
   }
 
-export function useClassByClassId(classId: string | undefined) {
+export function useClassByClassId(class_id: string | undefined) {
   const { data, isLoading, isError } = useQuery<Result<Class_[]>>({
-    queryKey: ["classes", classId],
+    queryKey: ["classrooms"],
     queryFn: fetchClasses,
   });
 
@@ -52,18 +52,18 @@ export function useClassByClassId(classId: string | undefined) {
     return { class_: null, isLoading, isError };
   }
 
-  if (!classId) {
-    console.log("No class found");
+  if (!class_id) {
+    console.log("No classroom found");
     return { class_: null, isLoading, isError };
   } 
 
-  const class_ = data.value.find((class_) => class_.id === classId);
+  const class_ = data.value.find((class_) => class_.id === class_id);
   return { class_, isLoading, isError };
 }
 
 export function useClassByCode(code: string) {
   const { data, isLoading, isError } = useQuery<Result<Class_[]>>({
-    queryKey: ["classes", code],
+    queryKey: ["classrooms"],
     queryFn: fetchClasses,
   });
 
@@ -89,7 +89,7 @@ export function useClassByCode(code: string) {
 
 export function useClassesByUser(user: User) {
     const { data, isLoading, isError } = useQuery<Result<Class_[]>>({
-      queryKey: ["classes", user.id],
+      queryKey: ["classrooms"],
       queryFn: () => fetchUserClasses(user),
       enabled: !!user,
     });
@@ -110,6 +110,6 @@ export function useClassesByUser(user: User) {
       return { class_: null, isLoading, isError };
     }
   
-    const classes = data.value;
-    return { classes, isLoading, isError };
+    const classrooms = data.value;
+    return { classrooms, isLoading, isError };
   }

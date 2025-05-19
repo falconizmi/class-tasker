@@ -65,10 +65,10 @@ import {
   
 
 export default function AddActivityForm({
-  classId,
+  class_id,
   setIsOpen,
 }: {
-  classId: string;
+  class_id: string;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
 }) {
   const queryClient = useQueryClient();
@@ -77,7 +77,7 @@ export default function AddActivityForm({
     mutationFn: async (activity: ActivityForm) => {
         return await postActivities({
           ...activity,
-          classId: classId
+          class_id: class_id
         });
     },
   });
@@ -87,7 +87,7 @@ export default function AddActivityForm({
     defaultValues: {
       name: "",
       date: new Date(),
-      activityType: ActivityEnum.Values.task,
+      activity_type: ActivityEnum.Values.task,
       description: "",
     },
   });
@@ -97,7 +97,7 @@ export default function AddActivityForm({
     try {
       console.log("SUBMITTED");
       mutation.mutate(activity);
-      queryClient.invalidateQueries({ queryKey: ["activities", classId], refetchType:"all" });
+      queryClient.invalidateQueries({ queryKey: ["activities", class_id], refetchType:"all" });
       console.log(activity.date)
       setIsOpen(false);
     } catch (error) {
@@ -194,7 +194,7 @@ export default function AddActivityForm({
           )}
         />
         <FormField
-          name="activityType"
+          name="activity_type"
           control={form.control}
           render={({ field }: { field: any }) => (
             <FormItem className="col-span-2 md:col-span-1">

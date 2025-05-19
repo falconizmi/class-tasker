@@ -14,7 +14,7 @@ export const fetchUsers = async (): Promise<Result<User[]>> => {
     return Result.err(new Error("Response is of unexpected structure!"));
   }
 
-  return Result.ok(request.data.users);
+  return Result.ok(request.data.data);
 };
 
 export const fetchStudents = async (): Promise<Result<User[]>> => {
@@ -25,7 +25,7 @@ export const fetchStudents = async (): Promise<Result<User[]>> => {
     return Result.err(new Error("Response is of unexpected structure!"));
   }
 
-  return Result.ok(request.data.users);
+  return Result.ok(request.data.data);
 };
 
 export const fetchTeachers = async (): Promise<Result<User[]>> => {
@@ -36,5 +36,5 @@ export const fetchTeachers = async (): Promise<Result<User[]>> => {
     return Result.err(new Error("Response is of unexpected structure!"));
   }
 
-  return Result.ok(request.data.users);
+  return Result.ok(request.data.data);
 };

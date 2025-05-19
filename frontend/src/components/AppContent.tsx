@@ -18,7 +18,7 @@ function AppContent({user}: {user: User}) {
             : isError
             ? "Error occurred"
             : classPage === undefined || class_ === undefined || class_ === null
-            ? "No class chosen"
+            ? "No classroom chosen"
             : class_.name
         }
       />
@@ -29,7 +29,7 @@ function AppContent({user}: {user: User}) {
             <div className="w-full flex justify-center mx-auto   overflow-auto h-[calc(100vh - 120px)] overflow-y-auto relative">
               <div className="w-full md:max-w-6xl">
                 {!class_ 
-                  ? <div className="text-center">First join class</div>
+                  ? <div className="text-center">First join classroom</div>
                   : <ActivityPage user={user} classPage={class_.id} />}
               </div>
             </div>

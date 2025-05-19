@@ -12,30 +12,30 @@ import { deleteActivity } from "@/api/activityApi";
 import { leaveClass } from "@/api/classApi";
 
 const formSchema = z.object({
-    classId:  z.string(),
+    class_id:  z.string(),
   userId: z.string(),
 });
 
 export default function LeaveClassForm({
-  classId,
+  class_id,
   userId,
   setIsOpen,
 }: {
-  classId: string;
+  class_id: string;
   userId: string;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
 }) {
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: async () => {
-        return await leaveClass(userId, classId);
+        return await leaveClass(userId, class_id);
     },
   });
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      classId: classId,
+      class_id: class_id,
       userId: userId
     },
   });
@@ -46,7 +46,7 @@ export default function LeaveClassForm({
     try {
         console.log("SUBMITTED");
         mutation.mutate();
-        queryClient.invalidateQueries({ queryKey: ["classes"], refetchType:"all" });
+        queryClient.invalidateQueries({ queryKey: ["classrooms"], refetchType:"all" });
 
         setIsOpen(false);
     } catch (error) {

@@ -1,10 +1,10 @@
 import AddActivityModal from "@/components/modals/AddActivityModal";
 
 
-function AppActions({classId}: {classId: string}) {
+function AppActions({class_id}: {class_id: string}) {
     return (
         <div className="flex ">
-          <AddActivityModal classId={classId} />
+          <AddActivityModal class_id={class_id} />
         </div>
       );
 }

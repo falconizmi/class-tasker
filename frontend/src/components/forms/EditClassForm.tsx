@@ -20,7 +20,7 @@ import { v4 as uuid } from "uuid";
 import {
     ClassForm,
     ClassFormSchema,
-  } from '@/models/class';
+  } from '@/models/classroom';
 
 
   import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -64,14 +64,14 @@ import {
   
 
 export default function EditClassForm({
-  classId,
+  class_id,
   setIsOpen,
 }: {
-  classId: string;
+  class_id: string;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
 }) {
   const queryClient = useQueryClient();
-  const { class_: readClass, isLoading: isClassLoading, isError } = useClassByClassId(classId);
+  const { class_: readClass, isLoading: isClassLoading, isError } = useClassByClassId(class_id);
   
   const mutation = useMutation({
     mutationFn: async (class_: ClassForm) => {
@@ -81,7 +81,7 @@ export default function EditClassForm({
           ...class_,
         });
       }
-      throw new Error("Class not found");
+      throw new Error("Classroom not found");
     },
   });
 
@@ -98,7 +98,7 @@ export default function EditClassForm({
     try {
       console.log("SUBMITTED");
       mutation.mutate(class_);
-      queryClient.invalidateQueries({ queryKey: ["classes"], refetchType:"all" });
+      queryClient.invalidateQueries({ queryKey: ["classrooms"], refetchType:"all" });
       setIsOpen(false);
     } catch (error) {
       console.log(error);

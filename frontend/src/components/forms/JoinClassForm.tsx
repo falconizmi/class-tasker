@@ -20,7 +20,7 @@ import { v4 as uuid } from "uuid";
 import {
     ClassWithoutId,
     ClassWithoutIdSchema,
-  } from '@/models/class';
+  } from '@/models/classroom';
 
 
   import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -78,7 +78,7 @@ export default function JoinClassForm({
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: async (code: string) => {
-      console.log("join class will used")
+      console.log("join classroom will used")
       return await joinClass(userId, code);
     },
   });
@@ -96,7 +96,7 @@ export default function JoinClassForm({
       console.log("SUBMITTED JOIN");
       mutation.mutate(f.code);
       console.log("MUTation finished");
-      queryClient.invalidateQueries({ queryKey: ["classes"], refetchType:"all" });
+      queryClient.invalidateQueries({ queryKey: ["classrooms"], refetchType:"all" });
       setIsOpen(false);
     } catch (error) {
       console.log(error);

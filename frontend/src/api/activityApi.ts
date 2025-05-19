@@ -15,7 +15,7 @@ export const fetchActivities = async (): Promise<Result<Activity[]>> => {
     return Result.err(new Error("Response is of unexpected structure!"));
   }
 
-  return Result.ok(request.data.activities);
+  return Result.ok(request.data.data);
 };
 
 export const postActivities = async (activity: ActivityPost): Promise<void> => {

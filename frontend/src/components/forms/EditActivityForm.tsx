@@ -60,7 +60,7 @@ export default function EditForm({
         return await updateActivity({
           id: readActivity.id,
           ...activity,
-          classId: readActivity.classId,
+          class_id: readActivity.class_id,
         });
       }
       throw new Error("Activity not found");
@@ -72,7 +72,7 @@ export default function EditForm({
     defaultValues: {
       name: readActivity?.name,
       date: readActivity?.date,
-      activityType: readActivity?.activityType,
+      activity_type: readActivity?.activity_type,
       description: readActivity?.description,
     },
   });
@@ -185,7 +185,7 @@ export default function EditForm({
           )}
         />
         <FormField
-          name="activityType"
+          name="activity_type"
           control={form.control}
           render={({ field }: { field: any }) => (
             <FormItem className="col-span-2 md:col-span-1">

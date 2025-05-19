@@ -63,10 +63,10 @@ export const columns: ColumnDef<Activity>[] = [
     },
   },
   {
-    accessorKey: "activityType",
+    accessorKey: "activity_type",
     header: "Activity type",
     cell: ({row}) => {
-      return (<Badge>{row.getValue("activityType")}</Badge>)
+      return (<Badge>{row.getValue("activity_type")}</Badge>)
     },
   },
   {

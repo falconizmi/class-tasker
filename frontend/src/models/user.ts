@@ -11,33 +11,34 @@ export type Email = z.infer<typeof EmailSchema>;
 
 export const UserSchema = z.object({
   id: z.string().uuid(),
-  firstName: z.string().min(1, "Missing first name"),
-  lastName: z.string().min(1, "Missing last name"),
+  first_name: z.string().min(1, "Missing first name"),
+  last_name: z.string().min(1, "Missing last name"),
   email: z.string().email("Invalid email"),
-  password: z.string().min(6, "Password too short"),
-  userType: UserTypeEnum,
+  password: z.string().min(4, "Password too short"),
+  user_type: UserTypeEnum,
 });
 
 export type User = z.infer<typeof UserSchema>;
 
 export const UserWithoutIdSchema = z.object({
-  firstName: z.string().min(1, "Missing first name"),
-  lastName: z.string().min(1, "Missing last name"),
+  first_name: z.string().min(1, "Missing first name"),
+  last_name: z.string().min(1, "Missing last name"),
   email: z.string().email("Invalid email"),
-  password: z.string().min(6, "Password too short"),
-  userType: UserTypeEnum,
+  password: z.string().min(4, "Password too short"),
+  user_type: UserTypeEnum,
 });
 
 export type UserWithoutId = z.infer<typeof UserWithoutIdSchema>;
 
 export const UserFetchSchema = z.object({
-    users: z.object({
+    status: z.string(),
+    data: z.object({
         id: z.string().uuid(),
-        firstName: z.string().min(1, "Missing first name"),
-        lastName: z.string().min(1, "Missing last name"),
+        first_name: z.string().min(1, "Missing first name"),
+        last_name: z.string().min(1, "Missing last name"),
         email: z.string().email("Invalid email"),
-        password: z.string().min(6, "Password too short"),
-        userType: UserTypeEnum,
+        password: z.string().min(4, "Password too short"),
+        user_type: UserTypeEnum,
     }).array(),
   });
   

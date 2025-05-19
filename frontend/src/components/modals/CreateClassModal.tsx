@@ -13,7 +13,7 @@ function CreateClassModal() {
       <ResponsiveDialog
         isOpen={isCreateOpen}
         setIsOpen={setIsCreateOpen}
-        title="Create Class"
+        title="Create Classroom"
       >
         <CreateClassForm setIsOpen={setIsCreateOpen} />
       </ResponsiveDialog>

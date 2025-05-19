@@ -13,7 +13,7 @@ function JoinClassModal({userId} : {userId: string}) {
       <ResponsiveDialog
         isOpen={isJoinOpen}
         setIsOpen={setIsJoinOpen}
-        title="Join Class"
+        title="Join Classroom"
       >
         <JoinClassForm userId={userId} setIsOpen={setIsJoinOpen} />
       </ResponsiveDialog>

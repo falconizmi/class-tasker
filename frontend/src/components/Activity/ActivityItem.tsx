@@ -5,11 +5,11 @@ function ActivityItem({
     name,
     description,
     date,
-    activityType,
+    activity_type,
 }: Activity): React.JSX.Element  {
   return (
     <div>
-      <p>name:{name} desc:{description} date:{date.getDay()}.{date.getMonth()}.{date.getFullYear()} type:  {activityType}</p>
+      <p>name:{name} desc:{description} date:{date.getDay()}.{date.getMonth()}.{date.getFullYear()} type:  {activity_type}</p>
     </div>
   )
 }

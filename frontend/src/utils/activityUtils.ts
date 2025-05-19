@@ -3,9 +3,9 @@ import { fetchActivities } from "@/api/activityApi";
 import { Activity } from "@/models/activity";
 import { Result } from "@badrap/result";
 
-export function useActivitiesClassId(classId: string | undefined) {
+export function useActivitiesClassId(class_id: string | undefined) {
   const { data, isLoading, isError } = useQuery<Result<Activity[]>>({
-    queryKey: ["activities", classId],
+    queryKey: ["activities"],
     queryFn: fetchActivities,
   });
 
@@ -25,18 +25,18 @@ export function useActivitiesClassId(classId: string | undefined) {
     return { activities: null, isLoading, isError };
   }
 
-  if (!classId) {
-    console.log("No class specified");
+  if (!class_id) {
+    console.log("No classroom specified");
     return { activities: [], isLoading, isError };
   } 
 
-  const activities = data.value.filter((activity) => activity.classId === classId);
+  const activities = data.value.filter((activity) => activity.class_id === class_id);
   return { activities, isLoading, isError };
 }
 
 export function useActivityByActivityId(activityId: string) {
   const { data, isLoading, isError } = useQuery<Result<Activity[]>>({
-    queryKey: ["activities", activityId],
+    queryKey: ["activities"],
     queryFn: fetchActivities,
   });
 

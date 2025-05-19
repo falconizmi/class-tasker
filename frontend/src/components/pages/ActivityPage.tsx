@@ -24,7 +24,7 @@ function ActivityPage({user, classPage}:{user: User, classPage: string}) {
 
   return (
     <div className="container">
-      {user.userType === UserTypeEnum.Values.teacher ? <AppActions classId={classPage}/> : <div></div> }
+      {user.user_type === UserTypeEnum.Values.teacher ? <AppActions class_id={classPage}/> : <div></div> }
       
       <div className="mx-auto py-10"> 
         <DataTable columns={columns} data={activities} />

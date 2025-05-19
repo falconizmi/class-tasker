@@ -20,7 +20,7 @@ import { v4 as uuid } from "uuid";
 import {
     ClassWithoutId,
     ClassWithoutIdSchema,
-  } from '@/models/class';
+  } from '@/models/classroom';
 
 
   import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -91,7 +91,7 @@ export default function CreateClassForm({
     try {
       console.log("SUBMITTED");
       mutation.mutate(class_);
-      queryClient.invalidateQueries({ queryKey: ["classes"], refetchType:"all" });
+      queryClient.invalidateQueries({ queryKey: ["classrooms"], refetchType:"all" });
       setIsOpen(false);
     } catch (error) {
       console.log(error);

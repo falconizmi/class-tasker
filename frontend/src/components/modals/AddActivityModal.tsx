@@ -6,7 +6,7 @@ import { Button } from "@/components/shadcn/button";
 import { SquarePen } from "lucide-react";
 import IconMenu from "@/utils/iconMenu";
 
-function AddActivityModal({ classId }: { classId: string }) {
+function AddActivityModal({ class_id }: { class_id: string }) {
   const [isAddOpen, setIsAddOpen] = useState(false);
   return (
     <>
@@ -15,7 +15,7 @@ function AddActivityModal({ classId }: { classId: string }) {
         setIsOpen={setIsAddOpen}
         title="Add Activity"
       >
-        <AddActivityForm classId={classId} setIsOpen={setIsAddOpen} />
+        <AddActivityForm class_id={class_id} setIsOpen={setIsAddOpen} />
       </ResponsiveDialog>
         <Button
           onClick={() => {

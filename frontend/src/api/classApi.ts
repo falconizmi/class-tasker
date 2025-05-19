@@ -3,49 +3,49 @@ import {
   Class_,
   ClassWithoutId,
   ClassFetchSchema,
-} from "../models/class";
+} from "../models/classroom";
 import { Result } from "@badrap/result";
 import { User } from "@/models/user";
 
 export const fetchClasses = async (): Promise<Result<Class_[]>> => {
-  const data = await baseApi.get("/classes");
+  const data = await baseApi.get("/classrooms");
   const request = ClassFetchSchema.safeParse(data.data);
 
   if (!request.success) {
     return Result.err(new Error("Response is of unexpected structure!"));
   }
 
-  return Result.ok(request.data.classes);
+  return Result.ok(request.data.data);
 };
 
 export const fetchUserClasses = async (user: User): Promise<Result<Class_[]>> => {
-  const data = await baseApi.get(`/classes/user/${user.id}`);
+  const data = await baseApi.get(`/classrooms/user/${user.id}`);
   const request = ClassFetchSchema.safeParse(data.data);
 
   if (!request.success) {
     return Result.err(new Error("Response is of unexpected structure!"));
   }
 
-  return Result.ok(request.data.classes);
+  return Result.ok(request.data.data);
 };
 
 export const postClasses = async (class_: ClassWithoutId): Promise<void> => {
-  const data = await baseApi.post("/classes", class_, {
+  const data = await baseApi.post("/classrooms", class_, {
     headers: { "Content-Type": "application/json" },
   });
   console.log(data);
 };
 
 export const joinClass = async (userId: string, code: string): Promise<void> => {
-  const data = await baseApi.post("/classes/join", { user_id: userId, code: code }, {
+  const data = await baseApi.post("/classrooms/join", { user_id: userId, code: code }, {
     headers: { "Content-Type": "application/json" },
   });
   console.log(data);
   console.log("joinclass api")
 };
 
-export const leaveClass = async (userId: string, classId: string): Promise<void> => {
-  const data = await baseApi.post("/classes/leave", { user_id: userId, class_id: classId }, {
+export const leaveClass = async (userId: string, class_id: string): Promise<void> => {
+  const data = await baseApi.post("/classrooms/leave", { user_id: userId, class_id: class_id }, {
     headers: { "Content-Type": "application/json" },
   });
   console.log(data);
@@ -53,13 +53,13 @@ export const leaveClass = async (userId: string, classId: string): Promise<void>
 
 
 export const updateClass = async (class_: Class_): Promise<void> => {
-  const data = await baseApi.patch(`/classes/${class_.id}`, class_, {
+  const data = await baseApi.patch(`/classrooms/${class_.id}`, class_, {
     headers: { "Content-Type": "application/json" },
   });
   console.log(data);
 };
 
-export const deleteClass = async (classId: string): Promise<void> => {
-  const data = await baseApi.delete(`/classes/${classId}`);
+export const deleteClass = async (class_id: string): Promise<void> => {
+  const data = await baseApi.delete(`/classrooms/${class_id}`);
   console.log(data);
 };
