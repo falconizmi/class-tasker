@@ -1,0 +1,85 @@
+networks:
+  app_network:
+    driver: bridge
+
+services:
+  postgres:
+    image: postgres:17
+    container_name: postgres_db_dev
+    restart: unless-stopped
+    env_file:
+      - .env
+    ports:
+      - "${POSTGRES_PORT}:5432"
+    volumes:
+      - postgres_data_dev:/var/lib/postgresql/data
+    networks:
+      - app_network
+
+  backend:
+    build:
+      context: ../../backend
+      dockerfile: Dockerfile
+    container_name: flask_backend_dev
+    env_file:
+      - .env
+    volumes:
+      - ../../backend:/app
+    ports:
+      - "${BACKEND_PORT}:8080"
+    networks:
+      - app_network
+    # Use Flask’s auto-reload
+    command: flask run --host=0.0.0.0 --port=8080 --reload --debugger
+
+  frontend:
+    build:
+      context: ../../frontend
+      dockerfile: Dockerfile.dev
+    container_name: vite_frontend_dev
+    depends_on:
+      - backend
+    env_file:
+      - .env
+    ports:
+      - "${FRONTEND_DEV_PORT}:5173"
+    volumes:
+      - ../../frontend:/app
+      - /app/node_modules
+      - .env:/app/.env
+    networks:
+      - app_network
+    command: ["npm", "run", "dev", "--", "--host", "0.0.0.0"]
+
+  adminer:
+    image: adminer
+    container_name: adminer_dev
+    restart: always
+    depends_on:
+      - postgres
+    ports:
+      - "8081:8080"
+    networks:
+      - app_network
+    environment:
+      ADMINER_DEFAULT_SERVER: postgres
+
+  migrate:
+    profiles: ["migrations"]
+    build:
+      context: ../../backend
+      dockerfile: Dockerfile
+    container_name: alembic_migration_dev
+    depends_on:
+      - postgres
+    env_file:
+      - .env
+    working_dir: /app
+    volumes:
+      - ../../backend:/app
+    networks:
+      - app_network
+    command: ["alembic", "upgrade", "head"]
+
+volumes:
+  postgres_data_dev:
